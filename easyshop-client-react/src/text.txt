@@ -1,0 +1,32 @@
+{/*<div className='navBar-container'>
+        <nav className='container'>
+        <div className='logo'>
+                <img src={logo} />
+            </div>
+            <div className='links'>
+                <ul>
+                    <li>Home</li>
+                    <li>Products</li>
+                    <li>Place holder</li>
+                </ul>
+            </div>
+            <div className='account-options-container'>
+                <Tooltip
+                    title="Wish list">
+                    <CustomeIconButton>
+                        <FavoriteBorderOutlinedIcon />
+                    </CustomeIconButton>
+                </Tooltip>
+                <Tooltip title="Cart">
+                    <CustomeIconButton>
+                        <ShoppingCartOutlinedIcon />
+                    </CustomeIconButton>
+                </Tooltip>
+                <Tooltip title="Account">
+                    <CustomeIconButton>
+                        <AccountCircleOutlinedIcon />
+                    </CustomeIconButton>
+                </Tooltip>
+            </div>
+        </nav>
+    </div> */}
