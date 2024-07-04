@@ -1,0 +1,10 @@
+.carousel-div-cantainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+.carousel-container{
+    padding: 10px 10px 30px 10px;
+    background-color: #063970;
+}

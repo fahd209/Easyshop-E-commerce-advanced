@@ -1,9 +1,17 @@
 import React from 'react'
+import Banner from './Banner'
+import Slider from './Slider'
+import Footer from './Footer'
+import '../styles/Home.css'
 
+//import Header from './Header'
 const Home = () => {
+
   return (
-    <div style={{marginTop: '150px'}}>
-      <h1>Home screen</h1>
+    <div className='home-contanier'>
+      <Banner />
+      <Slider />
+      <Footer />
     </div>
   )
 }

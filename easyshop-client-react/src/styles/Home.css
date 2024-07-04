@@ -1,0 +1,9 @@
+.home-contanier{
+    margin-top: 65px;
+}
+
+@media (max-width: 600px){
+    .home-contanier{
+        margin-top: 55px;
+    }
+}
