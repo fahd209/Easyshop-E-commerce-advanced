@@ -1,20 +1,23 @@
-import React from 'react'
 import {
-    MDBContainer,
-    MDBRow,
-    MDBCol,
     MDBCard,
     MDBCardBody,
     MDBCardImage,
-    MDBIcon,
   } from "mdb-react-ui-kit";
 import { Button } from '@mui/material';
   
+const FeaturedItemsCard = () => {
 
-const ProductCard = () => {
+  const cardSyle = { 
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+    margin: '0 auto',
+    width: '300px',
+    display: 'flex',
+    flexDirection: 'column'
+  }
+
   return (
     <div>
-          <MDBCard style={{boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', width: '300px'}}>
+          <MDBCard style={cardSyle}>
             <div className="d-flex justify-content-between p-3">
               <p className="lead mb-0">Featured Item</p>
             </div>
@@ -29,9 +32,6 @@ const ProductCard = () => {
                   <a href="#!" className="text-muted">
                     Laptops
                   </a>
-                </p>
-                <p className="small text-danger">
-                  <s>$1099</s>
                 </p>
               </div>
 
@@ -54,4 +54,4 @@ const ProductCard = () => {
   )
 }
 
-export default ProductCard
+export default FeaturedItemsCard

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom';
-import logo from '../images/logo4.png';
+import logo from './logo4.png';
 import { AppBar, Toolbar, Tabs, Tab, useMediaQuery, useTheme, Button } from '@mui/material';
-import DrawerComp from './DrawerComp';
+import DrawerComp from '../DrawerComp';
 
 const routes = {
     "/":0,
@@ -46,7 +46,6 @@ const NavigationBar = () => {
                   <Tab label='place holder' component={Link} />
                   <Tab label='about' component={Link} to='/about' />
                 </Tabs>
-              
                 <Button onClick={(e) => setValue()} color='inherit' component={Link} to='/register' sx={{marginLeft: 'auto'}}>Register</Button>
                 <Button onClick={(e) => setValue()} color='inherit' component={Link} to='/login' > Login </Button>
 
@@ -54,6 +53,12 @@ const NavigationBar = () => {
             )}
 
         </Toolbar>
+        {/* { location.pathname === '/shop' ? (
+            <SearchBar
+              Placeholder='Search for products'
+            />
+          ): ( null )
+        } */}
       </AppBar>
     </div>
   )

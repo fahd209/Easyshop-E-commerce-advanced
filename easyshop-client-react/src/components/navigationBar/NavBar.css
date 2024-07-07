@@ -1,0 +1,15 @@
+/*
+    #091c32
+    #4a6488
+
+    change the hover for material ui !
+*/
+
+
+.account-options-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+

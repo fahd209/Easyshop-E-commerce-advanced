@@ -1,0 +1,18 @@
+.carousel{
+    background-color: #063970;
+    padding: 25px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel h1{
+    text-align: center;
+    color: #e5eae8;
+    margin-bottom: 20px;
+}
+
+.slides-container{
+    width: 80%;
+}

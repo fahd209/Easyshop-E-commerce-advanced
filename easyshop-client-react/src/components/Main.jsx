@@ -1,11 +1,11 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './Home';
-import Shop from './Shop';
+import Home from './home/Home';
+import Shop from './shop/Shop';
 import About from './About';
 import Login from './Login';
 import Register from './Register';
-import NavigationBar from './NavigationBar';
+import NavigationBar from './navigationBar/NavigationBar';
 
 function Main() {
   return (
