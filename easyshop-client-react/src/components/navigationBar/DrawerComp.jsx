@@ -9,6 +9,7 @@ import { Drawer
     , ListItemButton
     , ListItemText
     } from '@mui/material';
+import { DisplaySettings } from '@mui/icons-material';
 
 
     const DrawerComp = () => {
@@ -27,7 +28,7 @@ import { Drawer
             <List>
             {
                 PAGES.map((page, index) => (
-                <ListItemButton component={Link} to={PATHS[index]} onClick={() => setOpenDrawer(false)}> 
+                <ListItemButton key={index} component={Link} to={PATHS[index]} onClick={() => setOpenDrawer(false)}> 
                     <ListItemIcon>
                         <ListItemText>{page}</ListItemText>
                     </ListItemIcon>

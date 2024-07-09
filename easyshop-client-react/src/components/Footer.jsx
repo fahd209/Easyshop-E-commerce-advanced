@@ -6,7 +6,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   return (
-  <div style={{backgroundColor: '#e5eae8'}}>
+  <div style={{backgroundColor: '#c0c0c0'}}>
     <footer class="container d-flex flex-wrap justify-content-between align-items-center py-3 border-top">
         <div class="col-md-4 d-flex align-items-center">
           <div class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom';
 import logo from './logo4.png';
 import { AppBar, Toolbar, Tabs, Tab, useMediaQuery, useTheme, Button } from '@mui/material';
-import DrawerComp from '../DrawerComp';
+import DrawerComp from './DrawerComp';
 
 const routes = {
     "/":0,
@@ -15,6 +15,7 @@ const NavigationBar = () => {
     const [value, setValue] = useState(); // sets the value for the tables value
     const theme = useTheme(); // getting the media query
     const isMatch = useMediaQuery(theme.breakpoints.down('md')); // .down = (max-width). sets match to true if breakpoint of the screen matches md
+    
     useEffect(()=>{
         setValue(routes[location.pathname]) // setting the value of the tabs to routes value with the path name as the key
     },[location.pathname])
@@ -53,12 +54,6 @@ const NavigationBar = () => {
             )}
 
         </Toolbar>
-        {/* { location.pathname === '/shop' ? (
-            <SearchBar
-              Placeholder='Search for products'
-            />
-          ): ( null )
-        } */}
       </AppBar>
     </div>
   )
