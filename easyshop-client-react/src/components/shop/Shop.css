@@ -16,14 +16,51 @@
     margin: 0 10px;
     padding: 10px;
     border-radius: 5px;
+    background-color: #f0f0f0;
 }
 
-.filter .filter-header{
-    display: flex;
-    align-items: center;
-    margin-left: 10px;
+.filter h3{
+    text-align: center;  
+    font-size: 40px;
+    padding-bottom: 10px;
 }
 
 .filter .filter-header h3{
     margin-left: 10px;
+}
+.priceRange-container{
+    margin-top: 10px;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    margin: 10px;
+    padding: 10px;
+}
+
+.priceRange-container p{
+    font-size: 20px;
+    margin: 10px 0 0 10px;
+    font-weight: 100;
+}
+
+.priceRange-controller{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.priceRange-container .priceRange-textField{
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.colorOption-contanier{
+    margin-top: 10px;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    margin: 10px;
+    padding: 10px;
 }

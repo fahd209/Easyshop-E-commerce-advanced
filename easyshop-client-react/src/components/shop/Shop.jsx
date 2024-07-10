@@ -1,4 +1,4 @@
-import { Box, Grid, useMediaQuery, useTheme, styled } from '@mui/material'
+import { Grid, useMediaQuery, useTheme } from '@mui/material'
 import React, { useState } from 'react'
 import Filter from './Filter'
 import SearchBar from './SearchBar'
@@ -57,6 +57,7 @@ const Shop = () => {
 
         </Grid>
         <Grid item xs={3} sx={{ height: '90vh', borderRight: '2px solid white', position: 'relative' }}>
+          <Filter />
          
         </Grid>
         <Grid item xs={9} sx={{height: '90vh'}}>

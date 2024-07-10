@@ -50,18 +50,18 @@ const Slider = () => {
    <div className='carousel'>
     <h1>Featured products</h1>
        <SlickSlider {...settings} className='slides-container' >
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <FeaturedItemsCard />
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <FeaturedItemsCard />
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <FeaturedItemsCard />
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <FeaturedItemsCard />
-      </div>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <FeaturedItemsCard />
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <FeaturedItemsCard />
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <FeaturedItemsCard />
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <FeaturedItemsCard />
+        </div>
     </SlickSlider>
    </div>
   )

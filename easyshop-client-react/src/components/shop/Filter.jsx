@@ -1,23 +1,24 @@
 import React from 'react'
 import CategoriesRadio from './CategoriesRadio'
-import TuneIcon from '@mui/icons-material/Tune';
+import PriceRangeSwiper from './PriceRangeSwiper'
+import ColorDropDown from './ColorDropDown'
+import './Shop.css'
 
 const Filter = () => {
   return (
     <div className='filter'>
-        <div className='filter-header'>
-          <TuneIcon />
           <h3>Filter</h3>
-        </div>
         <div className='category-contanier'>
             {/* Category list options */}
             <CategoriesRadio />
         </div>
-        <div className='priceRange-contanier'>
+        <div className='priceRange-container'>
             {/* Price range swipers */}
+            <PriceRangeSwiper />
         </div>
         <div className='colorOption-contanier' >
             {/* Color list options */}
+            <ColorDropDown />
         </div>
     </div>
   )
