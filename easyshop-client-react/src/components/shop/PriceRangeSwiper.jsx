@@ -7,7 +7,7 @@ function valuetext(value) {
   }  
 
 const PriceRangeSwiper = () => {
-    const [sliderValue, setSliderValue] = useState([null,1500]);
+    const [sliderValue, setSliderValue] = useState([0,1500]);
     const [minValue, setMinValue] = useState(sliderValue[0]);
     const [maxValue, setMaxValue] = useState(sliderValue[1]);
     
@@ -33,48 +33,48 @@ const PriceRangeSwiper = () => {
   return (
     <div className=''>
         <FormLabel sx={{fontSize: '20px'}} >Price range</FormLabel>
-        <div className='priceRange-controller'>
-        
-            <div className='priceRange-textField'>
-                <TextField
-                    sx={{width: '120px', margin: '10px'}}
-                    id="outlined-number"
-                    onChange={handleMinValueChange}
-                    value={minValue}
-                    minValue={0}
-                    label="Min"
-                    type="number"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                />
+            <div className='priceRange-controller'>
+            
+                <div className='priceRange-textField'>
+                    <TextField
+                        sx={{width: '120px', margin: '10px'}}
+                        id="outlined-number"
+                        onChange={handleMinValueChange}
+                        value={minValue}
+                        minValue={0}
+                        label="Min"
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                    />
 
-                <p>-</p>
+                    <p>-</p>
 
-                <TextField
-                    sx={{width: '120px', margin: '10px'}}
-                    id="outlined-number"
-                    value={maxValue}
-                    onChange={handMaxValueChange}
-                    maxValue={1500}
-                    label="Max"
-                    type="number"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
+                    <TextField
+                        sx={{width: '120px', margin: '10px'}}
+                        id="outlined-number"
+                        value={maxValue}
+                        onChange={handMaxValueChange}
+                        maxValue={1500}
+                        label="Max"
+                        type="number"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
 
+                    />
+                </div>
+
+                <Slider sx={{ width: '80%', marginBottom: '10px'}}
+                    getAriaLabel={() => 'Price Range'}
+                    value={sliderValue}
+                    onChange={handleChange}
+                    getAriaValueText={valuetext}
+                    valueLabelDisplay='auto'
+                    max={1500}
                 />
             </div>
-
-            <Slider sx={{ width: 300, marginBottom: '10px'}}
-                getAriaLabel={() => 'Price Range'}
-                value={sliderValue}
-                onChange={handleChange}
-                getAriaValueText={valuetext}
-                valueLabelDisplay='auto'
-                max={1500}
-            />
-        </div>
     </div>
   )
 }

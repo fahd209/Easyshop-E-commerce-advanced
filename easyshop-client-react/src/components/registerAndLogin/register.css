@@ -1,0 +1,30 @@
+.registerPage{
+    margin-top: 60px;
+    background-color: #063970;
+    height: 91.8vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.register-form{
+    height: 600px;
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.text-field{
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    padding: 10px;
+    margin-bottom: 30px;
+}
+
+.text-field p{
+    padding-left: 10px;
+}

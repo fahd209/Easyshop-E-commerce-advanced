@@ -1,6 +1,6 @@
 import React from 'react'
 import './Slider.css'
-import FeaturedItemsCard from '../FeaturedItemsCard';
+import FeaturedItemsCard from './FeaturedItemsCard';
 import SlickSlider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
