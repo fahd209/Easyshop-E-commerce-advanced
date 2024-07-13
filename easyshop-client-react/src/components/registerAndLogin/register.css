@@ -1,10 +1,11 @@
 .registerPage{
     margin-top: 60px;
-    background-color: #063970;
-    height: 91.8vh;
+    background: linear-gradient(to bottom right, rgba(6, 57, 112, 0.8), rgba(0, 0, 0, 0.5));
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: Roboto, sans-serif;
 }
 
 

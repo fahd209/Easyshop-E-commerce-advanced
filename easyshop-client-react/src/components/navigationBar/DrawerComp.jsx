@@ -14,8 +14,8 @@ import { DisplaySettings } from '@mui/icons-material';
 
     const DrawerComp = () => {
     const [openDrawer, setOpenDrawer] = useState(false);
-    const PAGES = ["Home", "Shop", "Place holder", "About", "Register", "Login"]
-    const PATHS = ["/", "/shop", "/place holder", "/about", "/register", "/login"]
+    const PAGES = ["Home", "Shop", "About", "Register", "Login"]
+    const PATHS = ["/", "/shop", "/about", "/register", "/login"]
 
 
   return (

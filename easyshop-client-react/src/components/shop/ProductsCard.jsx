@@ -14,7 +14,8 @@ const ProductCard = () => {
         height: '350px',
         display: 'flex',
         flexDirection: 'column',
-        margin: '0px 20px 20px 0'
+        margin: '0px 20px 20px 0',
+        fontFamily: 'Roboto, sans-serif'
       }
   return (
           <MDBCard style={cardSyle}>

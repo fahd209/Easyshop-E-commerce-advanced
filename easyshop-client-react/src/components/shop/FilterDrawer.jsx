@@ -15,7 +15,7 @@ const drawerWidth = '60%'
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
     '& .MuiDrawer-paper': {
-      width: '100vw',
+      width: '80vw',
       height: '100vh',
       boxSizing: 'border-box',
       position: 'fixed',

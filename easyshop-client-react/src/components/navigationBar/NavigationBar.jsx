@@ -7,8 +7,7 @@ import DrawerComp from './DrawerComp';
 const routes = {
     "/":0,
     "/shop":1,
-    "/place holder": 2,
-    "/about":3
+    "/about":2
   } 
 const NavigationBar = () => { 
     const location = useLocation(); // getting the route
@@ -44,7 +43,6 @@ const NavigationBar = () => {
                 > 
                   <Tab label='home' component={Link} to='/' />
                   <Tab label='Shop' component={Link} to='/shop' />
-                  <Tab label='place holder' component={Link} />
                   <Tab label='about' component={Link} to='/about' />
                 </Tabs>
                 <Button onClick={(e) => setValue()} color='inherit' component={Link} to='/register' sx={{marginLeft: 'auto'}}>Register</Button>

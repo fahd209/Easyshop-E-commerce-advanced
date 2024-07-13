@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
+import BannerPhotoGallery from './BannerPhotoGallery';
 const Banner = () => {
   return (
     <div style={{ backgroundColor: '#C0C0C0', fontFamily: 'Roboto, sans-serif'}}>

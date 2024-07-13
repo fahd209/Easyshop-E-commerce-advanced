@@ -12,18 +12,47 @@ import ProductsCard from './ProductsCard'
 const Shop = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const theme = useTheme();
-  const isMedium = useMediaQuery(theme.breakpoints.down('md'));
+  const isMedium = useMediaQuery(theme.breakpoints.down('lg'));
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   const toggleDrawer = () => { // sets usestate the oppsite of what it is
     setIsDrawerOpen(!isDrawerOpen)
   }
 
+  // grid styles
   const gridSyle = {
     height: '100%',
     marginTop: isSmall ? '56px' : '64px',
     backgroundColor: '#C0C0C0',
     fontFamily: 'Roboto, sans-serif'
+  }
+
+  const headerGrid = {
+    height: '10vh',
+    width: '100%',
+    borderBottom: '1px solid white'
+  }
+
+  const deskTopProductGrid = {
+    height: '100vh',
+    display: 'flex',
+    overflow: 'auto'
+  }
+
+  const productContainer = {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+
+  const mobileProductGrid = {
+    height: '90vh',
+    position: 'relative',
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    overflow: 'auto'
   }
 
 
@@ -33,7 +62,7 @@ const Shop = () => {
       {/* Mobile screen */}
       {isMedium ? (
         <> 
-          <Grid sx={{ height: '10vh', width: '100%', borderBottom: '1px solid white'}} >
+          <Grid sx={headerGrid} >
 
               <div  className='shop-header'>
                   <Tooltip title='Toggle Filter' >
@@ -47,7 +76,7 @@ const Shop = () => {
               </div>
 
             </Grid>
-            <Grid item xs={12} sx={{height: '90vh', position: 'relative', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', overflow: 'auto'}}>
+            <Grid item xs={12} sx={mobileProductGrid}>
 
               <FilterDrawer open={isDrawerOpen} onClose={toggleDrawer} />
               <ProductsCard />
@@ -64,7 +93,7 @@ const Shop = () => {
       ) : ( 
         
         <>
-          <Grid sx={{ height: '10vh', width: '100%', borderBottom: '1px solid white'}} >
+          <Grid sx={headerGrid} >
 
             <div className='shop-header'>
               <h1>Products</h1>
@@ -72,11 +101,16 @@ const Shop = () => {
             </div>
 
           </Grid>
-          <Grid item xs={3} sx={{ backgroundColor: '#063970', height: '100vh', borderRight: '1px solid white', display: 'flex', justifyContent: 'center' }}>
+          <Grid item xs={3} sx={{ backgroundColor: '#063970',
+           height: '100vh',
+            borderRight: '1px solid white',
+             display: 'flex',
+              justifyContent: 'center' }}>
+
             <Filter />
           </Grid>
-          <Grid item xs={9} sx={{height: '100vh', display: 'flex', overflow: 'auto'}}>
-            <div style={{display: 'flex', flexWrap: 'wrap'}}>
+          <Grid item xs={9} sx={deskTopProductGrid}>
+            <div style={productContainer}>
               <ProductsCard />
               <ProductsCard />
               <ProductsCard />
