@@ -1,9 +1,15 @@
 import React from 'react'
+import PurposeComp from './PurposeComp'
+import ProjectOverviewComp from './ProjectOverviewComp'
+import AboutFooter from './AboutFooter'
+import './About.css'
 
 const About = () => {
   return (
-    <div style={{marginTop: '150px'}}>
-      <h1>about</h1>
+    <div className='about-container'>
+      <PurposeComp />
+      <ProjectOverviewComp />
+      <AboutFooter />
     </div>
   )
 }

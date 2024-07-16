@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './register.css'
 import './login.css'
-import { Button, Paper, TextField, styled } from '@mui/material'
+import { Button, Paper, TextField, styled, useMediaQuery, useTheme } from '@mui/material'
 import { Link } from 'react-router-dom'
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -28,19 +28,23 @@ const CustomTextField = styled(TextField)({
   
 
 const Login = () => {
+  // state for the forms
   const [formInfo, setFormInfo] = useState({
     username: '',
     password: ''
   })
 
+  // state for the show password icon
   const [showPassword, setShowPassword] = useState(false);
 
+  // handling the show password click
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
 
+  // handling the forms changes
   const handleFormChange = (e) => {
     const {name, value} = e.target;
     setFormInfo({
@@ -48,6 +52,10 @@ const Login = () => {
       [name]:value
     })
   }
+
+  // geting the mediaQuery
+  const theme = useTheme();
+  const isScreenMedia = useMediaQuery(theme.breakpoints.down('md'));// <= will be set to true or false depending on the condition
 
   return (
     <div className='LoginPage'>
@@ -93,14 +101,14 @@ const Login = () => {
                 style: { backgroundColor: '#eaeaea' }
               }}
             />
-
+            
             <p><Link to='/register'>Don't have an account? Register</Link></p>
           </div>
           <div className='form-buttons'>
             <Button
               sx={{
                 backgroundColor: '#063970',
-                width: '320px',
+                width: isScreenMedia ? '156px' : '320px',
                 color: 'white',
                 '&:hover': {
                   backgroundColor: '#063970',

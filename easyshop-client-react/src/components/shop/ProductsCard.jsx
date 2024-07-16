@@ -5,7 +5,6 @@ import {
     MDBCardImage,
   } from "mdb-react-ui-kit";
 import { Button } from '@mui/material';
-import { Height } from '@mui/icons-material';
 
 const ProductCard = () => {
     const cardSyle = { 

@@ -29,3 +29,31 @@
 .text-field p{
     padding-left: 10px;
 }
+
+.form-buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 306px;
+}
+
+@media (max-width: 900px){
+    .register-form{
+        height: 500px;
+        width: 300px;
+    }
+
+    .text-field{
+        width: 250px;
+    }
+
+    .form-buttons{
+        width: 200px;
+    }
+}
+
+@media (max-width: 600px){
+    .registerPage{
+        margin-top: 55px;
+    }
+}

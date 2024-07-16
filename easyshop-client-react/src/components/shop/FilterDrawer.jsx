@@ -11,11 +11,11 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import CloseIcon from '@mui/icons-material/Close';
 
-const drawerWidth = '60%'
+const drawerWidth = '100%'
 
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
     '& .MuiDrawer-paper': {
-      width: '80vw',
+      width: '100vw',
       height: '100vh',
       boxSizing: 'border-box',
       position: 'fixed',

@@ -43,7 +43,8 @@ const Shop = () => {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    gap: '5px'
   }
 
   const mobileProductGrid = {
@@ -52,9 +53,9 @@ const Shop = () => {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    overflow: 'auto'
+    overflow: 'auto',
+    gap: '5px'
   }
-
 
   return (
     <Grid container spacing={2}  sx={gridSyle}>
@@ -79,13 +80,9 @@ const Shop = () => {
             <Grid item xs={12} sx={mobileProductGrid}>
 
               <FilterDrawer open={isDrawerOpen} onClose={toggleDrawer} />
-              <ProductsCard />
-              <ProductsCard />
-              <ProductsCard />
-              <ProductsCard />
-              <ProductsCard />
-              <ProductsCard />
-              <ProductsCard />
+              {[...Array(14)].map((_, index) => (
+                <ProductsCard key={index} className="product-card" />
+              ))}
 
             </Grid>
         </>
@@ -111,20 +108,9 @@ const Shop = () => {
           </Grid>
           <Grid item xs={9} sx={deskTopProductGrid}>
             <div style={productContainer}>
-              <ProductsCard />
-              <ProductsCard />
-              <ProductsCard />
-              <ProductsCard />
-              <ProductsCard />
-              <ProductsCard />
-              <ProductsCard />
-              <ProductsCard />
-              <ProductsCard />
-              <ProductsCard />
-              <ProductsCard />
-              <ProductsCard />
-              <ProductsCard />
-              <ProductsCard />
+              {[...Array(14)].map((_, index) => (
+                <ProductsCard key={index} className="product-card" />
+              ))}
             </div>
           </Grid>
         </>

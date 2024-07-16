@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
 import './register.css'
-import './login.css'
-import { Button, Paper, TextField, styled } from '@mui/material'
+import { Button, Paper, TextField, styled, useMediaQuery, useTheme } from '@mui/material'
 import { Link } from 'react-router-dom'
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import axios from 'axios';
+import baseUrl from '../config/baseUrl'
+import { error } from 'ajv/dist/vocabularies/applicator/dependencies';
+
 
 const CustomTextField = styled(TextField)({
   '& .MuiFilledInput-root': {
@@ -26,17 +29,18 @@ const CustomTextField = styled(TextField)({
   width: '100%', // Add this line to set width to 100%
 });
 
-const Login = () => {
+const Register = () => {
   const [formInfo, setFormInfo] = useState({
     username: '',
-    email: '',
     password: '',
     confirmpassword: ''
   })
 
+  // useState for the showPassword Icon
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmedPassword, setShowConfirmedPassword] = useState(false);
 
+  // handling showPassword icon click event
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleClickShowConfirmedPassowrd = () => setShowConfirmedPassword((show) => !show);
 
@@ -44,6 +48,7 @@ const Login = () => {
     event.preventDefault();
   };
 
+  // handling the change of the forms
   const handleFormChange = (e) => {
     const {name, value} = e.target;
     setFormInfo({
@@ -52,11 +57,39 @@ const Login = () => {
     })
   }
 
+  // getting the mediaQuery
+  const theme = useTheme();
+  const isScreenMedium = useMediaQuery(theme.breakpoints.down('md'));
+
+  // api register request
+  const register = async () => {
+    // setting the endpoint and the register info
+    const url = "http://localhost:8080/register";
+    const registerData = {
+      username: formInfo.username,
+      password: formInfo.password,
+      confirmPassword: formInfo.confirmpassword,
+      role: "user"
+    }
+
+    try {
+      const response = await axios.post(url, registerData)
+      console.log(response.data)
+    } catch (err) {
+      console.log(`Error message: ${err.message}`)
+    }
+    setFormInfo({
+      username: '',
+      password: '',
+      confirmpassword: ''
+    })
+  }
+
   return (
     <div className='registerPage'>
       <Paper elevation={2} className='form-paper' sx={{ backgroundColor: 'f0f0f0' }} >
-        <form className='loginForm' >
-          <h1>Login</h1>
+        <form className='register-form' >
+          <h1>Register</h1>
           <div className='text-field'>
             <CustomTextField
               id="username-input"
@@ -72,19 +105,6 @@ const Login = () => {
               }}
             />
 
-            <CustomTextField
-              id="email-input"
-              label="Email"
-              type="input"
-              name='email'
-              value={formInfo.email}
-              onChange={handleFormChange}
-              autoComplete="current-password"
-              variant="filled"
-              InputProps={{
-                style: { backgroundColor: '#eaeaea' }
-              }}
-            />
 
             <CustomTextField
               id="password-input"
@@ -141,13 +161,14 @@ const Login = () => {
             <Button
               sx={{
                 backgroundColor: '#063970',
-                width: '320px',
+                width: isScreenMedium ? '156px' : '320px',
                 color: 'white',
                 '&:hover': {
                   backgroundColor: '#063970',
                   opacity: 0.8,
                 }
               }}
+              onClick={register}
             >
             Register</Button>
           </div>
@@ -157,4 +178,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Register

@@ -1,0 +1,9 @@
+.about-container{
+    margin-top: 64px;
+}
+
+@media (max-width: 600px){
+    .about-container{
+        margin-top: 55px;
+    }
+}
