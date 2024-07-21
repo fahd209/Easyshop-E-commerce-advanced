@@ -1,5 +1,5 @@
 import { Grid, useMediaQuery, useTheme } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Filter from './Filter'
 import SearchBar from './SearchBar'
 import FilterDrawer from './FilterDrawer'
@@ -7,13 +7,16 @@ import './Shop.css'
 import TuneIcon from '@mui/icons-material/Tune';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import ProductsCard from './ProductsCard'
+import ProductsCard from './ProductsCard';
+import baseUrl from '../config/baseUrl';
+import axios from 'axios'
 
 const Shop = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const theme = useTheme();
   const isMedium = useMediaQuery(theme.breakpoints.down('lg'));
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const [productData, setProductData] = useState([{}])
 
   const toggleDrawer = () => { // sets usestate the oppsite of what it is
     setIsDrawerOpen(!isDrawerOpen)
@@ -57,6 +60,20 @@ const Shop = () => {
     gap: '5px'
   }
 
+  // products get request
+  useEffect(() => {
+      const url = `${baseUrl}/products`
+            axios.get(url)
+            .then(response => {
+              setProductData(response.data)
+              console.log("success")
+              console.log(response.data)
+            })
+            .catch(error => {
+              console.log("failed to get data")
+            })
+  }, [])
+
   return (
     <Grid container spacing={2}  sx={gridSyle}>
       {/* removes side grid and renders drawer inside if the screen is small */}
@@ -80,9 +97,23 @@ const Shop = () => {
             <Grid item xs={12} sx={mobileProductGrid}>
 
               <FilterDrawer open={isDrawerOpen} onClose={toggleDrawer} />
-              {[...Array(14)].map((_, index) => (
+
+              {
+                productData.map((product, index) => (
+                  <ProductsCard 
+                    key={product.productId}
+                    categoryId={product.categoryId}
+                    price={product.price}
+                    productName={product.name}
+                    stock={product.stock}
+                    imageUrl={product.imageUrl}
+                    quantity={product.stock}
+                    className="product-card" />
+                ))
+              }
+              {/* {[...Array(14)].map((_, index) => (
                 <ProductsCard key={index} className="product-card" />
-              ))}
+              ))} */}
 
             </Grid>
         </>
@@ -108,9 +139,21 @@ const Shop = () => {
           </Grid>
           <Grid item xs={9} sx={deskTopProductGrid}>
             <div style={productContainer}>
-              {[...Array(14)].map((_, index) => (
-                <ProductsCard key={index} className="product-card" />
-              ))}
+            {/* mapping the data to a product card */}
+
+              {
+                productData.map((product, index) => (
+                  <ProductsCard 
+                    key={product.productId}
+                    categoryId={product.categoryId}
+                    price={product.price}
+                    productName={product.name}
+                    stock={product.stock}
+                    imageUrl={product.imageUrl}
+                    quantity={product.stock}
+                    className="product-card" />
+                ))
+              }
             </div>
           </Grid>
         </>

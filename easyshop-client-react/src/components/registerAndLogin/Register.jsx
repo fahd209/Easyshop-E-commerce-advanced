@@ -8,7 +8,6 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import axios from 'axios';
 import baseUrl from '../config/baseUrl'
-import { error } from 'ajv/dist/vocabularies/applicator/dependencies';
 
 
 const CustomTextField = styled(TextField)({
@@ -64,7 +63,7 @@ const Register = () => {
   // api register request
   const register = async () => {
     // setting the endpoint and the register info
-    const url = "http://localhost:8080/register";
+    const url = `${baseUrl}/register`;
     const registerData = {
       username: formInfo.username,
       password: formInfo.password,
@@ -73,8 +72,9 @@ const Register = () => {
     }
 
     try {
+      // sending post request to register
       const response = await axios.post(url, registerData)
-      console.log(response.data)
+      console.log(response.message)
     } catch (err) {
       console.log(`Error message: ${err.message}`)
     }

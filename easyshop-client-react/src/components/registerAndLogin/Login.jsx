@@ -7,6 +7,10 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import baseUrl from '../config/baseUrl'
+import axios from 'axios'
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const CustomTextField = styled(TextField)({
   '& .MuiFilledInput-root': {
@@ -28,6 +32,8 @@ const CustomTextField = styled(TextField)({
   
 
 const Login = () => {
+
+  const { saveUser } = useAuth();
   // state for the forms
   const [formInfo, setFormInfo] = useState({
     username: '',
@@ -36,10 +42,8 @@ const Login = () => {
 
   // state for the show password icon
   const [showPassword, setShowPassword] = useState(false);
-
   // handling the show password click
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
@@ -56,6 +60,39 @@ const Login = () => {
   // geting the mediaQuery
   const theme = useTheme();
   const isScreenMedia = useMediaQuery(theme.breakpoints.down('md'));// <= will be set to true or false depending on the condition
+  const navigate = useNavigate();
+
+  
+  const handleLoginClick = async () => {
+    const url = `${baseUrl}/login`;
+    const loginInfo = {
+      username: formInfo.username,
+      password: formInfo.password
+    }
+
+    try{
+      // sending login post req
+       await axios.post(url, loginInfo)
+        .then((res) =>{
+          // saving user to useAuth custom hook
+          saveUser(res.data)
+          navigate("/")
+          
+        }, fail => {
+          console.log(fail)
+        })
+    }
+    catch(err)
+    {
+      console.log(err)
+    }
+
+    // setting form back to empty
+    setFormInfo({
+      username: '',
+      password: ''
+    })
+  }
 
   return (
     <div className='LoginPage'>
@@ -76,7 +113,6 @@ const Login = () => {
                 style: { backgroundColor: '#eaeaea' }
               }}
             />
-
             <CustomTextField
               id="password-input"
               label="Password"
@@ -101,11 +137,12 @@ const Login = () => {
                 style: { backgroundColor: '#eaeaea' }
               }}
             />
-            
+
             <p><Link to='/register'>Don't have an account? Register</Link></p>
           </div>
           <div className='form-buttons'>
             <Button
+            onClick={handleLoginClick}
               sx={{
                 backgroundColor: '#063970',
                 width: isScreenMedia ? '156px' : '320px',

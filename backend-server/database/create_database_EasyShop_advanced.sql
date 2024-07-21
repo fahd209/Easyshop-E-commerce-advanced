@@ -4,11 +4,11 @@ USE sys;
 # Target DBMS:           MySQL                                           #
 # Project name:          EasyShop                                        #
 # ---------------------------------------------------------------------- #
-DROP DATABASE IF EXISTS easyshop;
+DROP DATABASE IF EXISTS easyshop_Advanced;
 
-CREATE DATABASE IF NOT EXISTS easyshop;
+CREATE DATABASE IF NOT EXISTS easyshop_Advanced;
 
-USE easyshop;
+USE easyshop_Advanced;
 
 # ---------------------------------------------------------------------- #
 # Tables                                                                 #
@@ -50,7 +50,7 @@ CREATE TABLE products (
     category_id INT NOT NULL,
     description TEXT,
     color VARCHAR(20),
-    image_url VARCHAR(200),
+    image BLOB,
     stock INT NOT NULL DEFAULT 0,
     featured BOOL NOT NULL DEFAULT 0,
     PRIMARY KEY (product_id),
@@ -113,8 +113,8 @@ VALUES  ('Electronics', 'Explore the latest gadgets and electronic devices.'),
 
 /* INSERT Products */
 -- electronics
-INSERT INTO products (name, price, category_id, description, image_url, stock, featured, color) 
-VALUES  ('Smartphone', 499.99, 1, 'A powerful and feature-rich smartphone for all your communication needs.', 'smartphone.jpg', 50, 0, 'Black'),
+INSERT INTO products (name, price, category_id, description, image, stock, featured, color) 
+VALUES  ('Smartphone', 499.99, 1, 'A powerful and feature-rich smartphone for all your communication needs.', load_file("products\smartphone.jpg"), 50, 0, 'Black'),
         ('Laptop', 899.99, 1, 'A high-performance laptop for work and entertainment.', 'laptop.jpg', 30, 0, 'Gray'),
         ('Headphones', 99.99, 1, 'Immerse yourself in music with these high-quality headphones.', 'headphones.jpg', 100, 1, 'White'),
         ('Smart TV', 1499.99, 1, 'Experience stunning visuals and smart features with this advanced television.', 'smart-tv.jpg', 20, 0, 'Black'),

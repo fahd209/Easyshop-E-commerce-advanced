@@ -3,6 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 import logo from './logo4.png';
 import { AppBar, Toolbar, Tabs, Tab, useMediaQuery, useTheme, Button } from '@mui/material';
 import DrawerComp from './DrawerComp';
+import { useAuth } from '../context/AuthContext';
+import AccountIconTools from './AccountIconTools'
 
 const routes = {
     "/":0,
@@ -10,6 +12,7 @@ const routes = {
     "/about":2
   } 
 const NavigationBar = () => { 
+    const { isLoggedIn } = useAuth();
     const location = useLocation(); // getting the route
     const [value, setValue] = useState(); // sets the value for the tables value
     const theme = useTheme(); // getting the media query
@@ -18,7 +21,7 @@ const NavigationBar = () => {
     useEffect(()=>{
         setValue(routes[location.pathname]) // setting the value of the tabs to routes value with the path name as the key
     },[location.pathname])
-    
+
   return (
     <div>
       <AppBar sx={{background: '#063970'}} > 
@@ -34,7 +37,6 @@ const NavigationBar = () => {
             ) : (
 
               <>
-
                 <Tabs 
                     TabIndicatorProps={{ sx: {backgroundColor: 'white'}}}
                     sx={{marginLeft: 'auto'}}
@@ -45,8 +47,13 @@ const NavigationBar = () => {
                   <Tab label='Shop' component={Link} to='/shop' />
                   <Tab label='about' component={Link} to='/about' />
                 </Tabs>
-                <Button onClick={(e) => setValue()} color='inherit' component={Link} to='/register' sx={{marginLeft: 'auto'}}>Register</Button>
-                <Button onClick={(e) => setValue()} color='inherit' component={Link} to='/login' > Login </Button>
+                
+                {isLoggedIn() ? ( <AccountIconTools/> ) : ( 
+                  <>
+                    <Button onClick={(e) => setValue()} color='inherit' component={Link} to='/register' sx={{marginLeft: 'auto'}}>Register</Button>
+                    <Button onClick={(e) => setValue()} color='inherit' component={Link} to='/login' > Login </Button>
+                  </>
+                 )}
 
               </>
             )}

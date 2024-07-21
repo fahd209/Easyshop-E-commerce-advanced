@@ -1,0 +1,8 @@
+.purchaseHistory-container h1{
+    text-align: center;
+    font-size: 30px;
+    color: black;
+    font-family: Roboto, sans-serif;
+    padding: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}

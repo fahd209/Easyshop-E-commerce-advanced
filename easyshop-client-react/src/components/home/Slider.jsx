@@ -1,11 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './Slider.css'
 import FeaturedItemsCard from './FeaturedItemsCard';
 import SlickSlider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import baseUrl from '../config/baseUrl';
+import axios from 'axios';
 
 const Slider = () => {
+  const [featuredItemData, setFeaturedItemData] = useState([{}])
+
+  // get req to backend for featuredItem
+  useEffect(()=> {
+    const url = `${baseUrl}/products/featured`
+    axios.get(url)
+      .then(response => {
+        setFeaturedItemData(response.data)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }, [])
 
   const settings = {
     dots: true,
@@ -13,13 +28,13 @@ const Slider = () => {
     arrows: true,
     speed: 500,
     slidesToShow: 4,
-    slidesToScroll: 1,
+    slidesToScroll: 4,
     responsive: [
       {
         breakpoint: 1550,
         settings: {
           slidesToShow: 3,
-          slidesToScroll: 1,
+          slidesToScroll: 3,
           infinite: true,
           dots: true
         }
@@ -28,7 +43,7 @@ const Slider = () => {
         breakpoint: 1200,
         settings: {
           slidesToShow: 2,
-          slidesToScroll: 1,
+          slidesToScroll: 2,
           infinite: true,
           dots: true,
           arrows: false,
@@ -50,18 +65,21 @@ const Slider = () => {
    <div className='carousel'>
     <h1>Featured products</h1>
        <SlickSlider {...settings} className='slides-container' >
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <FeaturedItemsCard />
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <FeaturedItemsCard />
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <FeaturedItemsCard />
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <FeaturedItemsCard />
-        </div>
+
+       {
+        featuredItemData.map((product, index) => (
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <FeaturedItemsCard
+              productId={product.productId}
+              productName={product.name}
+              price={product.price}
+              categoryId={product.categoryId}
+              quantity={product.stock}
+              imageUrl={product.imageUrl}
+             />
+          </div>
+        ))
+       }
     </SlickSlider>
    </div>
   )

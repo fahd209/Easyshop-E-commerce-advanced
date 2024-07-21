@@ -6,8 +6,13 @@ import About from './about/About';
 import Login from './registerAndLogin/Login';
 import Register from './registerAndLogin/Register';
 import NavigationBar from './navigationBar/NavigationBar';
+import Profile from './profile/Profile';
+import Cart from './cartComponents/Cart'
+import wishList from './wishList/WishList'
+import { useAuth } from "../components/context/AuthContext"
 
 function Main() {
+  const { isLoggedIn } = useAuth();
   return (
     <Router>
       <NavigationBar />
@@ -15,8 +20,20 @@ function Main() {
             <Route path='/' Component={Home} />
             <Route path='/shop' Component={Shop} />
             <Route path='/about' Component={About} />
-            <Route path='/login' Component={Login}/>
-            <Route path='/register' Component={Register} />
+            {
+              isLoggedIn() ? (
+                <>
+                  <Route path='/wishlist' Component={wishList}/>
+                  <Route path='/cart' Component={Cart} />
+                  <Route path='/profile' Component={Profile} />
+                </>
+              ) : ( 
+                <>
+                  <Route path='/login' Component={Login}/>
+                  <Route path='/register' Component={Register} />
+              </>
+               )
+            }
       </Routes>
     </Router>
   )

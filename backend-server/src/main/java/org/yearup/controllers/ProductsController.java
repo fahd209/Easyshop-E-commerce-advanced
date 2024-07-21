@@ -42,6 +42,17 @@ public class ProductsController
         }
     }
 
+    @GetMapping("/featured")
+    public List<Product> getFeaturedProducts()
+    {
+        try
+        {
+            return productDao.getFeaturedProducts();
+        }catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Opps our bad");
+        }
+    }
+
     @GetMapping("{id}")
     @PreAuthorize("permitAll()")
     public Product getById(@PathVariable int id )
