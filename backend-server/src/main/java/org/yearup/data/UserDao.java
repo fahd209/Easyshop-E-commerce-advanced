@@ -1,6 +1,5 @@
 package org.yearup.data;
 
-import org.yearup.models.ChangePasswordRequest;
 import org.yearup.models.User;
 
 import java.util.List;
@@ -18,6 +17,4 @@ public interface UserDao {
     User create(User user);
 
     boolean exists(String username);
-
-    void changePassword(ChangePasswordRequest request, int userId);
 }

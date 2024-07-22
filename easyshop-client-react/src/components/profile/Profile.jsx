@@ -6,7 +6,6 @@ import PurchaseHistory from './PurchaseHistory'
 import baseUrl from '../config/baseUrl';
 import axios from 'axios';
 import { useMessage } from '../alerts/MessageContext'
-import ChangePasswordModal from './ChangePasswordModal';
 
 const Profile = () => {
   const { displayMessage } = useMessage()
@@ -81,15 +80,6 @@ const Profile = () => {
     setRenderPurchaseHistory(newValue === 1)
   }
 
-  const handleOpenModel = () => {
-    setOpenModel(true)
-    console.log("open model")
-  }
-
-  const handleCloseModel = () => {
-    setOpenModel(false)
-  }
-
   // form styles
   const gridStyle = {
     height: '100%',
@@ -111,10 +101,6 @@ const Profile = () => {
 
   return (
       <Grid container style={gridStyle}>
-        <ChangePasswordModal
-          openModel={openModal}
-          closeModal={handleCloseModel}
-         />
         <Grid style={headerGrid} item xs={12} >
           <h1>Hello {currentUser.username}</h1>
         </Grid>
@@ -148,7 +134,6 @@ const Profile = () => {
                       address={profileData.address}
                       onChangeForm={handleProfileFormChange}
                       onUpdate={handleUpdateRequest}
-                      onChangePassword={handleOpenModel}
                     /> 
                    )
             }

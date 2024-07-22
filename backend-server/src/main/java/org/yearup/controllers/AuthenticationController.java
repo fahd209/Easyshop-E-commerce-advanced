@@ -13,7 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import org.yearup.models.ChangePasswordRequest;
 import org.yearup.models.Profile;
 import org.yearup.data.ProfileDao;
 import org.yearup.data.UserDao;
@@ -23,8 +22,6 @@ import org.yearup.models.authentication.RegisterUserDto;
 import org.yearup.models.User;
 import org.yearup.security.jwt.JWTFilter;
 import org.yearup.security.jwt.TokenProvider;
-
-import java.security.Principal;
 
 @RestController
 @CrossOrigin
@@ -82,7 +79,7 @@ public class AuthenticationController {
             }
 
             // create user
-            User user = userDao.create(new User(0, newUser.getUsername(), newUser.getPassword(), "User"));
+            User user = userDao.create(new User(0, newUser.getUsername(), newUser.getPassword(), newUser.getRole()));
 
             // create profile
             Profile profile = new Profile();
@@ -94,26 +91,6 @@ public class AuthenticationController {
         catch (Exception e)
         {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
-        }
-    }
-
-    @PatchMapping
-    public ResponseEntity<?> changePassword (
-            @RequestBody ChangePasswordRequest request,
-            Principal principal
-    )
-    {
-        try {
-            String userName = principal.getName();
-            User user = userDao.getByUserName(userName);
-            int userId = user.getId();
-
-            userDao.changePassword(request, userId);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (Exception e)
-        {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

@@ -37,7 +37,6 @@ const UserInfo = ( props ) => {
         <CustomTextField label="State" name='state' value={props.state} onChange={props.onChangeForm} variant="filled" />
         <CustomTextField label="Zip" name='zip' value={props.zip} onChange={props.onChangeForm} variant="filled" />
         <Button style={buttonStyle} onClick={props.onUpdate}  variant='outlined' >Update</Button>
-        <Button style={buttonStyle} onClick={props.onChangePassword} variant='outlined' >Change password</Button>
     </>
   )
 }

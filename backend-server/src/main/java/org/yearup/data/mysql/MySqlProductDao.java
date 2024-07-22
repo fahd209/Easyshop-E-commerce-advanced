@@ -159,35 +159,6 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao
         return null;
     }
 
-    @Override
-    public List<Product> getFeaturedProducts() {
-        List<Product> featuredProduct = new ArrayList<>();
-
-        String sql = """
-                SELECT *
-                FROM products
-                WHERE featured = 1;
-                """;
-
-        try(Connection connection = getConnection())
-        {
-            Statement statement = connection.createStatement();
-
-            ResultSet row = statement.executeQuery(sql);
-
-            while(row.next())
-            {
-                Product product = mapRow(row);
-                featuredProduct.add(product);
-            }
-        }
-        catch (Exception e)
-        {
-            throw new RuntimeException(e);
-        }
-        return featuredProduct;
-    }
-
     // updating product by id and requested body
     @Override
     public void update(int productId, Product product)
@@ -224,6 +195,35 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao
         {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public List<Product> getFeaturedProducts() {
+        List<Product> featuredProduct = new ArrayList<>();
+
+        String sql = """
+                SELECT *
+                FROM products
+                WHERE featured = 1;
+                """;
+
+        try(Connection connection = getConnection())
+        {
+            Statement statement = connection.createStatement();
+
+            ResultSet row = statement.executeQuery(sql);
+
+            while(row.next())
+            {
+                Product product = mapRow(row);
+                featuredProduct.add(product);
+            }
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+        return featuredProduct;
     }
 
     // deleting product by id
