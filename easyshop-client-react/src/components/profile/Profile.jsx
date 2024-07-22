@@ -1,32 +1,15 @@
-import { Box, Button, Grid, Tab, Tabs, TextField, useMediaQuery, useTheme } from '@mui/material'
+import { Box, Grid, Tab, Tabs, useMediaQuery, useTheme } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useAuth } from '../context/AuthContext'
-import { styled } from '@mui/material'
 import UserInfo from './UserInfo';
 import PurchaseHistory from './PurchaseHistory'
 import baseUrl from '../config/baseUrl';
 import axios from 'axios';
-import { error } from 'ajv/dist/vocabularies/applicator/dependencies';
-
-const CustomTextField = styled(TextField)({
-  '& .MuiFilledInput-root': {
-    borderRadius: '8px',
-    backgroundColor: '#eaeaea',
-  },
-  '& .MuiFilledInput-root:before': {
-    borderBottom: 'none',
-  },
-  '& .MuiFilledInput-root:after': {
-    borderBottom: 'none',
-  },
-  '& .MuiFilledInput-root:hover:not(.Mui-disabled):before': {
-    borderBottom: 'none',
-  },
-  margin: '5px',
-  width: '100%', // Add this line to set width to 100%
-});
+import { useMessage } from '../alerts/MessageContext'
+import ChangePasswordModal from './ChangePasswordModal';
 
 const Profile = () => {
+  const { displayMessage } = useMessage()
 
   const { currentUser } = useAuth()
   const [renderPurchaseHistory, setRenderPurchaseHistory] = useState(false);
@@ -36,6 +19,7 @@ const Profile = () => {
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const [tabValue, setTabValue] = useState();
   const [profileData, setProfileData] = useState([{}])
+  const [openModal, setOpenModel] = useState(false)
 
   useEffect(()=> {
     if(renderPurchaseHistory){
@@ -57,10 +41,11 @@ const Profile = () => {
             },
         })
         setProfileData(response.data)
+        
       }
       catch(error)
       {
-        console.log(error)
+        displayMessage("Failed to get profile", "error")
       }
     }
 
@@ -75,6 +60,7 @@ const Profile = () => {
     })
   }
 
+  // sending a put request to backend
   const handleUpdateRequest = async () => {
     const url = `${baseUrl}/profile`;
 
@@ -84,15 +70,24 @@ const Profile = () => {
             'Authorization': `Bearer ${currentUser.token}`,
           },
       })
-      console.log("Profile updated successfully")
+      displayMessage("Profile updated", "success")
     }
     catch(error) {
-      console.log("Failed to update profile")
+      displayMessage("Failed to update profile", "error")
     }
   }
 
   const handleTabChange = (event, newValue) => {
     setRenderPurchaseHistory(newValue === 1)
+  }
+
+  const handleOpenModel = () => {
+    setOpenModel(true)
+    console.log("open model")
+  }
+
+  const handleCloseModel = () => {
+    setOpenModel(false)
   }
 
   // form styles
@@ -114,13 +109,12 @@ const Profile = () => {
     boxSizing: 'border-box',
   };
 
-  const buttonStyle = {
-    width: '100%',
-    margin: '5px 5px 0 5px'
-  }
-
   return (
       <Grid container style={gridStyle}>
+        <ChangePasswordModal
+          openModel={openModal}
+          closeModal={handleCloseModel}
+         />
         <Grid style={headerGrid} item xs={12} >
           <h1>Hello {currentUser.username}</h1>
         </Grid>
@@ -154,6 +148,7 @@ const Profile = () => {
                       address={profileData.address}
                       onChangeForm={handleProfileFormChange}
                       onUpdate={handleUpdateRequest}
+                      onChangePassword={handleOpenModel}
                     /> 
                    )
             }

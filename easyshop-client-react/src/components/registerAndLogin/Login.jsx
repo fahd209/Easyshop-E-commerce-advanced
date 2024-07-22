@@ -11,6 +11,7 @@ import baseUrl from '../config/baseUrl'
 import axios from 'axios'
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { useMessage } from '../alerts/MessageContext'
 
 const CustomTextField = styled(TextField)({
   '& .MuiFilledInput-root': {
@@ -32,6 +33,8 @@ const CustomTextField = styled(TextField)({
   
 
 const Login = () => {
+
+  const { displayMessage } = useMessage();
 
   const { saveUser } = useAuth();
   // state for the forms
@@ -77,9 +80,11 @@ const Login = () => {
           // saving user to useAuth custom hook
           saveUser(res.data)
           navigate("/")
+          displayMessage("Login successful", "success")
           
         }, fail => {
           console.log(fail)
+          displayMessage("Login failed", "error")
         })
     }
     catch(err)

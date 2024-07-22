@@ -10,32 +10,37 @@ import Profile from './profile/Profile';
 import Cart from './cartComponents/Cart'
 import wishList from './wishList/WishList'
 import { useAuth } from "../components/context/AuthContext"
+import { MessageProvider } from './alerts/MessageContext';
 
 function Main() {
   const { isLoggedIn } = useAuth();
   return (
-    <Router>
-      <NavigationBar />
-      <Routes>
-            <Route path='/' Component={Home} />
-            <Route path='/shop' Component={Shop} />
-            <Route path='/about' Component={About} />
-            {
-              isLoggedIn() ? (
-                <>
-                  <Route path='/wishlist' Component={wishList}/>
-                  <Route path='/cart' Component={Cart} />
-                  <Route path='/profile' Component={Profile} />
+    <MessageProvider>
+      <Router>
+        <NavigationBar />
+        <Routes>
+              <Route path='/' Component={Home} />
+              <Route path='/shop' Component={Shop} />
+              <Route path='/about' Component={About} />
+              {
+                isLoggedIn() ? (
+                  <>
+                    <Route path='/wishlist' Component={wishList}/>
+                    <Route path='/cart' Component={Cart} />
+                    <Route path='/profile' Component={Profile} />
+                  </>
+                ) : ( 
+                  <>
+                    
+                      <Route path='/login' Component={Login}/>
+                      <Route path='/register' Component={Register} />
+                  
                 </>
-              ) : ( 
-                <>
-                  <Route path='/login' Component={Login}/>
-                  <Route path='/register' Component={Register} />
-              </>
-               )
-            }
-      </Routes>
-    </Router>
+                )
+              }
+        </Routes>
+      </Router>
+    </MessageProvider>
   )
 }
 

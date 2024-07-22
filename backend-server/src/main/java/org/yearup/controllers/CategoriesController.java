@@ -40,7 +40,7 @@ public class CategoriesController
         }
         catch (Exception ex)
         {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Oops... our bad.");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
 
@@ -65,7 +65,7 @@ public class CategoriesController
         }
         catch (Exception ex)
         {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Oops... our bad.");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
 
@@ -80,7 +80,7 @@ public class CategoriesController
         }
         catch (Exception ex)
         {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Oops...our bad");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops...our bad");
         }
     }
 
@@ -95,7 +95,7 @@ public class CategoriesController
         }
         catch (Exception ex)
         {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Oops...our bad");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops...our bad");
         }
     }
 
@@ -111,7 +111,7 @@ public class CategoriesController
         }
         catch (Exception ex)
         {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Oops...our bad");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops...our bad");
         }
     }
 }

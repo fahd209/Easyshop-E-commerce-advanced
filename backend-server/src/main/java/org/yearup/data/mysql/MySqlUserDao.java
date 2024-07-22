@@ -1,8 +1,10 @@
 package org.yearup.data.mysql;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.yearup.data.UserDao;
+import org.yearup.models.ChangePasswordRequest;
 import org.yearup.models.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -14,10 +16,13 @@ import java.util.List;
 @Component
 public class MySqlUserDao extends MySqlDaoBase implements UserDao
 {
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    public MySqlUserDao(DataSource dataSource)
+    public MySqlUserDao(DataSource dataSource, PasswordEncoder passwordEncoder)
     {
         super(dataSource);
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -144,6 +149,70 @@ public class MySqlUserDao extends MySqlDaoBase implements UserDao
     {
         User user = getByUserName(username);
         return user != null;
+    }
+
+    @Override
+    public void changePassword(ChangePasswordRequest request, int userId) {
+        // check if the current password is correct
+        if(!passwordEncoder.matches(request.getCurrentPassword(), getCurrentUserPassword(userId)))
+        {
+            throw new IllegalStateException("Wrong password");
+        }
+
+        // check if the two new passwords are correct
+        if(!request.getNewPassword().equals(request.getConfirmPassword()))
+        {
+            throw new IllegalStateException("Wrong password");
+        }
+
+        // update password
+        try(Connection connection = getConnection())
+        {
+            User user = getUserById(userId);
+            String hashedPassword = new BCryptPasswordEncoder().encode(request.getNewPassword());
+            String sql = """
+                    UPDATE users
+                    SET hashed_password = ?
+                    WHERE user_id = ?
+                    """;
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, hashedPassword);
+            statement.setInt(2, userId);
+            statement.executeUpdate();
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String getCurrentUserPassword(int userId)
+    {
+        String password = "";
+
+        String sql = """
+                SELECT hashed_password
+                FROM users
+                WHERE user_id = ?;
+                """;
+
+        try(Connection connection = getConnection()){
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, userId);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if(resultSet.next())
+            {
+                password = resultSet.getString("hashed_password");
+            }
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+        return password;
     }
 
     private User mapRow(ResultSet row) throws SQLException
