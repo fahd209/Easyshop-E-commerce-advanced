@@ -27,14 +27,16 @@ const CartProductCard = ( props ) => {
 
   const handleDecrease = () => {
     if(quantity > 0){
-      setQuantity(quantity - 1);
-      props.onDecrease(props.id); // passing the id to on decrease function
+      const newQuantity = quantity - 1;
+      setQuantity(newQuantity);
+      props.onDecrease(props.id, newQuantity); // passing the id to on decrease function
     }
   };
 
   const handleIncrease = () => {
-    setQuantity(quantity + 1);
-    props.onIncrease(props.id);
+    const newQuantity = quantity + 1;
+    setQuantity(newQuantity);
+    props.onIncrease(props.id, newQuantity);
   };
 
 

@@ -9,7 +9,7 @@ const OrderSummaryItem = ( { name, quantity, price } ) => {
             <p>Quantity: {quantity}</p>
         </div>
         <div>
-            <p>${price * quantity}</p>
+            <p>${price}</p>
         </div>
     </div>
   )

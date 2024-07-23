@@ -1,15 +1,77 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CartHeader from './CartHeader'
 import { Grid, useMediaQuery, useTheme } from '@mui/material'
 import { Margin } from '@mui/icons-material';
 import CartProductCard from './CartProductCard';
 import Checkout from './Checkout';
+import baseUrl from '../config/baseUrl'
+import axios from 'axios';
+import { useAuth } from '../context/AuthContext'
+import { useMessage } from '../alerts/MessageContext'
+import { error } from 'ajv/dist/vocabularies/applicator/dependencies';
 
 const Cart = () => {
+  
+
+  const [cartItemsData, setCartItemsData] = useState([]);
+  const [cartData, setCartData] = useState({});
+
+  const { currentUser } = useAuth()
+  const { displayMessage } = useMessage()
   const theme = useTheme();
   const isMedium = useMediaQuery(theme.breakpoints.down('lg'));
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
+  // get request for carts
+  useEffect(() => {
+    const getCart = async () => {
+      const url = `${baseUrl}/cart`
+      try{
+        const response = await axios.get(url, {
+          headers: { // passing the current user token every time the req is called
+              'Authorization': `Bearer ${currentUser.token}`,
+            },
+        })
+        console.log(response.data)
+        if(response.data.items && typeof response.data.items === 'object')
+        {
+          setCartItemsData(Object.values(response.data.items));
+          setCartData(response.data)
+        }
+      }
+      catch(error)
+      {
+        displayMessage("Failed to load cart", "Error")
+      }
+    }
+    getCart();
+  }, [])
+
+
+  // catching the id of the quantity that's being decreased
+  const decrease = (id, quantity) => {
+    // mapping through the items list
+  }
+
+  // calling a put request with the item id and the quantity 
+  const handleChangeQuantity = (id, quantity) => {
+    const url = `${baseUrl}/cart/products/${id}`;
+    axios.put(url, {}, {
+        params: {quantity}, // passing quantity as params
+        headers: { 
+        'Authorization': `Bearer ${currentUser.token}`,
+      },
+    })
+      .then(response => {
+        setCartData(response.data)
+        setCartItemsData(Object.values(response.data.items))
+      })
+      .catch(err => {
+        displayMessage("Failed to update item quantity", "Error")
+      })
+    }
+
+     // grid styles
   const gridSyle = {
     height: '100%',
     marginTop: isSmall ? '56px' : '64px',
@@ -44,50 +106,6 @@ const Cart = () => {
     // alignItems: 'center'
   }
 
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      productName: 'Head phones',
-      quantity: 1,
-      description: "There are many variations of passages of Lorem Ipsum available but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
-      price: 20.00
-    },
-    {
-      id: 2,
-      productName: 'smart phone',
-      quantity: 1,
-      description: "There are many variations of passages of Lorem Ipsum available but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
-      price: 700.00
-    },
-    {
-      id: 3,
-      productName: 'shorts',
-      quantity: 4,
-      description: "There are many variations of passages of Lorem Ipsum available but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
-      price: 10.00
-    },
-  ])
-
-  // catching the id of the quantity that's being decreased
-  const decrease = (id) => {
-    // mapping through the items list
-    setCartItems(prevItem => 
-      prevItem.map(item => 
-        // checking if the id matches and decreasing the quantity if its greated then zero
-        item.id === id ? { ...item, quantity: item.quantity > 0 ? item.quantity - 1 : 0 } : item
-      )
-    )
-  }
-
-  const increase = (id) => {
-    setCartItems(prevItem => 
-      prevItem.map(item => 
-        item.id === id ? {...item, quantity: item.quantity + 1 } : item
-      )
-    )
-  }
-
-
   return (
     <Grid container sx={gridSyle}>
       <Grid xs={12} sx={headerGrid}>
@@ -96,27 +114,27 @@ const Cart = () => {
       <Grid xs={9} sx={productGrid}>
         <div className='product-container'>
         {
-          cartItems.map((item, index) => (
+          cartItemsData.map((cartItem, index) => (
             <CartProductCard
               key={index}
-              id={item.id}
-              name={item.productName}
-              quantity={item.quantity}
-              price={item.price}
-              description={item.description}
+              id={cartItem.product.productId}
+              name={cartItem.product.name}
+              quantity={cartItem.quantity}
+              price={cartItem.lineTotal}
+              description={cartItem.product.description}
 
               // product card decrease and increase function props
-              onDecrease={decrease}
-              onIncrease={increase}
-             />
+              onDecrease={handleChangeQuantity}
+              onIncrease={handleChangeQuantity}
+          />
           ))
         }
-          
         </div>
       </Grid>
       <Grid xs={3} sx={checkOutGrid}>
         <Checkout
-          data={cartItems}
+          data={cartItemsData}
+          cartData={cartData}
          />
       </Grid>
     </Grid>
