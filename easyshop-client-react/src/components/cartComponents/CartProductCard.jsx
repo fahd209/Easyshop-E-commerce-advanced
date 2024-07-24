@@ -39,6 +39,11 @@ const CartProductCard = ( props ) => {
     props.onIncrease(props.id, newQuantity);
   };
 
+  const handleRemoveItem = (e) => {
+    e.preventDefault();
+    props.onRemoveItem(props.id);
+  }
+
 
   return (
     <MDBCard className="shadow-0 border rounded-3 mt-3" style={{ width: '90%' }}>
@@ -90,7 +95,7 @@ const CartProductCard = ( props ) => {
               </Tooltip>
             </div>
             <div className="d-flex flex-column mt-4">
-              <Button variant="contained" onClick={(e) => e.preventDefault()}>
+              <Button variant="contained" onClick={handleRemoveItem}>
                 Remove
               </Button>
               <Button

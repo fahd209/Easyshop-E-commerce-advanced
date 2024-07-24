@@ -63,11 +63,45 @@ const Cart = () => {
       },
     })
       .then(response => {
-        setCartData(response.data)
-        setCartItemsData(Object.values(response.data.items))
+        setCartData(response.data) // setting cartData to the updated cart
+        setCartItemsData(Object.values(response.data.items)) // setting cartItemsData to the updated items
       })
       .catch(err => {
         displayMessage("Failed to update item quantity", "Error")
+      })
+    }
+
+    const handleRemoveItem = (id) => {
+      const url = `${baseUrl}/cart/${id}`;
+      axios.delete(url, {
+          headers: { 
+            'Authorization': `Bearer ${currentUser.token}`,
+        },
+      })
+      .then(response => {
+        setCartItemsData(Object.values(response.data.items)) // resetting the cart items
+        setCartData(response.data) // resetting the cart
+      })
+      .catch(err => {
+        displayMessage("Failed to remove item", "Error")
+      })
+    }
+
+    const handleClearCart = () => {
+      const url = `${baseUrl}/cart`;
+      axios.delete(url, {
+          headers: { 
+            'Authorization': `Bearer ${currentUser.token}`,
+        },
+      })
+      .then(response => {
+        setCartData(response.data);
+        setCartItemsData(Object.values(response.data.items));
+        displayMessage("Cart cleared", "success")
+
+      })
+      .catch(err => {
+        displayMessage("Failed to clear cart", "Error")
       })
     }
 
@@ -126,6 +160,7 @@ const Cart = () => {
               // product card decrease and increase function props
               onDecrease={handleChangeQuantity}
               onIncrease={handleChangeQuantity}
+              onRemoveItem={handleRemoveItem}
           />
           ))
         }
@@ -135,6 +170,7 @@ const Cart = () => {
         <Checkout
           data={cartItemsData}
           cartData={cartData}
+          onClearCart={handleClearCart}
          />
       </Grid>
     </Grid>

@@ -4,7 +4,7 @@ import { Button, FormLabel } from '@mui/material';
 import OrderSummaryItem from './OrderSummaryItem';
 import './Cart.css'
 
-const Checkout = ( { data, cartData } ) => {
+const Checkout = ( { data, cartData, onClearCart } ) => {
   return (
     <div className='checkout-container'>
           <Paper elevation={1} sx={{width: '90%', height: '80%'}}>
@@ -29,7 +29,7 @@ const Checkout = ( { data, cartData } ) => {
                 <h4>${cartData.total}</h4>
               </div>
               <div className='checkout-buttons'>
-                <Button sx={{width: '45%'}} variant='outlined' >Clear cart</Button>
+                <Button sx={{width: '45%'}} onClick={onClearCart} variant='outlined' >Clear cart</Button>
                 <Button sx={{width: '45%'}} variant='contained' >Check out</Button>
               </div>
             </div>
