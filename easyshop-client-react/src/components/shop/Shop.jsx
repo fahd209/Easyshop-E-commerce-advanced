@@ -1,4 +1,4 @@
-import { Grid, useMediaQuery, useTheme } from '@mui/material'
+import { Button, Grid, useMediaQuery, useTheme } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import Filter from './Filter'
 import SearchBar from './SearchBar'
@@ -10,6 +10,8 @@ import Tooltip from '@mui/material/Tooltip';
 import ProductsCard from './ProductsCard';
 import baseUrl from '../config/baseUrl';
 import axios from 'axios'
+import { useAuth } from '../context/AuthContext'
+import { useMessage } from '../alerts/MessageContext'
 
 const Shop = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -17,6 +19,8 @@ const Shop = () => {
   const isMedium = useMediaQuery(theme.breakpoints.down('lg'));
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const [productData, setProductData] = useState([{}])
+  const { currentUser } = useAuth()
+  const { displayMessage } = useMessage()
 
   const toggleDrawer = () => { // sets usestate the oppsite of what it is
     setIsDrawerOpen(!isDrawerOpen)
@@ -66,13 +70,28 @@ const Shop = () => {
             axios.get(url)
             .then(response => {
               setProductData(response.data)
-              console.log("success")
               console.log(response.data)
             })
             .catch(error => {
-              console.log("failed to get data")
+              console.log("failed to get data");
             })
   }, [])
+
+  const handleAddToCart = (id) => {
+    const url = `${baseUrl}/cart/products/${id}`;
+    axios.post(url, {
+      headers: { // passing the current user token every time the req is called
+              'Authorization': `Bearer ${currentUser.token}`,
+            },
+    })
+    .then(resonse => {
+      console.log(resonse.data);
+      displayMessage("Product added to cart", "success")
+    })
+    .catch(err => {
+      displayMessage("Failed to add product to cart", "error")
+    })
+  }
 
   return (
     <Grid container spacing={2}  sx={gridSyle}>
@@ -84,11 +103,11 @@ const Shop = () => {
 
               <div  className='shop-header'>
                   <Tooltip title='Toggle Filter' >
-                    <IconButton onClick={toggleDrawer}  variant="contained">
+                    <Button onClick={toggleDrawer}  variant="contained">
                     <TuneIcon
-                        sx={{color: '#063970'}}
+                        sx={{color: 'white'}}
                       />
-                    </IconButton>
+                    </Button>
                   </Tooltip>
                 <SearchBar />
               </div>
@@ -102,12 +121,14 @@ const Shop = () => {
                 productData.map((product, index) => (
                   <ProductsCard 
                     key={product.productId}
+                    id={product.productId}
                     categoryId={product.categoryId}
                     price={product.price}
                     productName={product.name}
                     stock={product.stock}
                     imageUrl={product.imageUrl}
                     quantity={product.stock}
+                    onAddToCart={handleAddToCart}
                     className="product-card" />
                 ))
               }
@@ -151,6 +172,7 @@ const Shop = () => {
                     stock={product.stock}
                     imageUrl={product.imageUrl}
                     quantity={product.stock}
+                    onAddToCart={handleAddToCart}
                     className="product-card" />
                 ))
               }

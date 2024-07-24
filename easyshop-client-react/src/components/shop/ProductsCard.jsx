@@ -33,6 +33,10 @@ const ProductCard = ( props ) => {
       3: "Home & Kitchen"
     }
 
+    const addToCart = () => {
+      props.onAddToCart(props.id)
+    }
+
 
   return (
         <MDBCard style={cardSyle}>
@@ -63,7 +67,7 @@ const ProductCard = ( props ) => {
                 Available: <span class="fw-bold">{props.quantity}</span>
               </p>
               <div class="ms-auto text-warning">
-                 <Button disabled={!isLoggedIn()}  variant='contained' >Add to cart</Button>
+                 <Button disabled={!isLoggedIn()} onClick={addToCart}  variant='contained' >Add to cart</Button>
               </div>
             </div>
           </MDBCardBody>

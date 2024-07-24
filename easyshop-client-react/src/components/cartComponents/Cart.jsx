@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import CartHeader from './CartHeader'
-import { Grid, useMediaQuery, useTheme } from '@mui/material'
-import { Margin } from '@mui/icons-material';
+import { Button, Grid, IconButton, Tooltip, useMediaQuery, useTheme } from '@mui/material'
 import CartProductCard from './CartProductCard';
 import Checkout from './Checkout';
 import baseUrl from '../config/baseUrl'
@@ -9,6 +8,8 @@ import axios from 'axios';
 import { useAuth } from '../context/AuthContext'
 import { useMessage } from '../alerts/MessageContext'
 import { error } from 'ajv/dist/vocabularies/applicator/dependencies';
+import CheckOutDrawer from './CheckOutDrawer';
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 
 const Cart = () => {
   
@@ -19,8 +20,9 @@ const Cart = () => {
   const { currentUser } = useAuth()
   const { displayMessage } = useMessage()
   const theme = useTheme();
-  const isMedium = useMediaQuery(theme.breakpoints.down('lg'));
+  const isMedium = useMediaQuery(theme.breakpoints.down('md'));
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const [openDrawer, setOpenDrawer] = useState(false);
 
   // get request for carts
   useEffect(() => {
@@ -105,6 +107,15 @@ const Cart = () => {
       })
     }
 
+    // drawer functionality
+    const handleOpenDrawer = () => {
+
+    }
+
+    const toggleDrawer = () => {
+      setOpenDrawer(!openDrawer)
+    }
+
      // grid styles
   const gridSyle = {
     height: '100%',
@@ -115,12 +126,13 @@ const Cart = () => {
   }
 
   const headerGrid = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     height: '10vh',
     width: '100%',
     borderBottom: '1px solid white',
-    display: 'flex',
-    justContent: 'center',
-    alignItems: 'center'
+    padding: '10px'
   }
 
   const productGrid = {
@@ -142,38 +154,89 @@ const Cart = () => {
 
   return (
     <Grid container sx={gridSyle}>
-      <Grid xs={12} sx={headerGrid}>
-        <CartHeader />
-      </Grid>
-      <Grid xs={9} sx={productGrid}>
-        <div className='product-container'>
-        {
-          cartItemsData.map((cartItem, index) => (
-            <CartProductCard
-              key={index}
-              id={cartItem.product.productId}
-              name={cartItem.product.name}
-              quantity={cartItem.quantity}
-              price={cartItem.lineTotal}
-              description={cartItem.product.description}
+      
+      {
+        isMedium ? (// Mobile screen
+          <>
+          <Grid xs={12} sx={headerGrid}>
+            <h1>Cart</h1>
+            {/* Opens drawer */}
+            <div>
+              <Tooltip title='Check out' >
+                <Button sx={{height: '50px', width: '50px'}} onClick={toggleDrawer}  variant="contained">
+                  <ShoppingBasketIcon   />
+                </Button>
+              </Tooltip>
+            </div>
+          </Grid>
+          <Grid xs={12} sx={productGrid}>
+            <CheckOutDrawer
+              open={openDrawer}
+              onClose={toggleDrawer}
+              data={cartItemsData}
+              cartData={cartData}
+              clearCart={handleClearCart}
+             />
+                <div className='product-container'>
+                {
+                  cartItemsData.map((cartItem, index) => (
+                    <CartProductCard
+                      key={index}
+                      id={cartItem.product.productId}
+                      name={cartItem.product.name}
+                      quantity={cartItem.quantity}
+                      price={cartItem.lineTotal}
+                      description={cartItem.product.description}
 
-              // product card decrease and increase function props
-              onDecrease={handleChangeQuantity}
-              onIncrease={handleChangeQuantity}
-              onRemoveItem={handleRemoveItem}
-          />
-          ))
-        }
-        </div>
+                      // product card decrease and increase function props
+                      onDecrease={handleChangeQuantity}
+                      onIncrease={handleChangeQuantity}
+                      onRemoveItem={handleRemoveItem}
+                  />
+                  ))
+                }
+                </div>
+              </Grid>
+          </>
+        ) : (    // desktop screen
+          <>
+            <Grid xs={12} sx={headerGrid}>
+              <CartHeader />
+            </Grid>
+            <Grid xs={9} sx={productGrid}>
+                <div className='product-container'>
+                {
+                  cartItemsData.map((cartItem, index) => (
+                    <CartProductCard
+                      key={index}
+                      id={cartItem.product.productId}
+                      name={cartItem.product.name}
+                      quantity={cartItem.quantity}
+                      price={cartItem.lineTotal}
+                      description={cartItem.product.description}
+
+                      // product card decrease and increase function props
+                      onDecrease={handleChangeQuantity}
+                      onIncrease={handleChangeQuantity}
+                      onRemoveItem={handleRemoveItem}
+                  />
+                  ))
+                }
+                </div>
+              </Grid>
+              <Grid xs={3} sx={checkOutGrid}>
+                <Checkout
+                  data={cartItemsData}
+                  cartData={cartData}
+                  onClearCart={handleClearCart}
+                />
+              </Grid>
+            
+          </>
+        )
+      }
       </Grid>
-      <Grid xs={3} sx={checkOutGrid}>
-        <Checkout
-          data={cartItemsData}
-          cartData={cartData}
-          onClearCart={handleClearCart}
-         />
-      </Grid>
-    </Grid>
+      
   )
 }
 
