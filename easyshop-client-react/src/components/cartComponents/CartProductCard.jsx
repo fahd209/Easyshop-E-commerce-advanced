@@ -16,6 +16,7 @@ import './Cart.css'
 
 const CartProductCard = ( props ) => {
 
+  //const imageSrc = `/images/products/${imageUrl}`;
   let imageUrl = "";
   try {
     imageUrl = require(`../../images/products/${props.imageUrl}`);
@@ -51,7 +52,7 @@ const CartProductCard = ( props ) => {
         <MDBRow>
           <MDBCol md="12" lg="3" className="mb-4 mb-lg-0" style={{display: 'flex'}}>
               <img
-                src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/img%20(4).webp"
+                src={imageUrl}
                 fluid
                 className="w-100"
               />

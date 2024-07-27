@@ -4,7 +4,6 @@ import { styled } from '@mui/material/styles';
 import CategoriesRadio from './CategoriesRadio'
 import PriceRangeSwiper from './PriceRangeSwiper'
 import ColorDropDown from './ColorDropDown'
-import SortByDropDown from './SortByDropDown'
 import Paper from '@mui/material/Paper';
 import './Shop.css'
 import IconButton from '@mui/material/IconButton';
@@ -27,7 +26,7 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
     },
   }));
 
-const FilterDrawer = ({ open, onClose }) => {
+const FilterDrawer = ({ open, onClose, handleSearchFilterChange, handlePriceRange }) => {
     const paperStyle = {
       backgroundColor: '#063970',
       height: '100%',
@@ -52,18 +51,15 @@ const FilterDrawer = ({ open, onClose }) => {
         </div>
         <div className='category-contanier'>
             {/* Category list options */}
-             <CategoriesRadio />
+             <CategoriesRadio handleSearchFilterChange={handleSearchFilterChange} />
         </div>
         <div className='priceRange-container'>
             {/* Price range swipers */}
-            <PriceRangeSwiper />
+            <PriceRangeSwiper handlePriceRange={handlePriceRange} />
         </div>
         <div className='colorOption-contanier' >
             {/* Color list options */}
-            <ColorDropDown />
-        </div>
-        <div className='sort-container'>
-          <SortByDropDown />
+            <ColorDropDown handleSearchFilterChange={handleSearchFilterChange} />
         </div>
       </Paper>
   </StyledDrawer>

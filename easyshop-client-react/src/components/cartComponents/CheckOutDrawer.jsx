@@ -23,7 +23,7 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
     },
   }));
 
-const CheckOutDrawer = ({ open, onClose, data, cartData, clearCart }) => {
+const CheckOutDrawer = ({ open, onClose, data, cartData, clearCart, onCheckOut }) => {
     const paperStyle = {
       backgroundColor: '#063970',
       height: '100%',

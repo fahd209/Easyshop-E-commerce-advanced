@@ -6,8 +6,12 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import baseUrl from '../config/baseUrl';
 import axios from 'axios';
+import { useAuth } from '../context/AuthContext'
+import { useMessage } from '../alerts/MessageContext'
 
 const Slider = () => {
+  const { displayMessage } = useMessage()
+  const { currentUser } = useAuth()
   const [featuredItemData, setFeaturedItemData] = useState([{}])
 
   // get req to backend for featuredItem
@@ -61,6 +65,22 @@ const Slider = () => {
     ]
   };
 
+  const handleAddToCart = (id) => {
+    const url = `${baseUrl}/cart/products/${id}`;
+    axios.post(url, {}, {
+      headers: { // passing the current user token every time the req is called
+              'Authorization': `Bearer ${currentUser.token}`,
+            },
+    })
+    .then(resonse => {
+      console.log(resonse.data);
+      displayMessage("Product added to cart", "success")
+    })
+    .catch(err => {
+      displayMessage("Failed to add product to cart", "error")
+    })
+  }
+
   return (
    <div className='carousel'>
     <h1>Featured products</h1>
@@ -70,12 +90,13 @@ const Slider = () => {
         featuredItemData.map((product, index) => (
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <FeaturedItemsCard
-              productId={product.productId}
+              id={product.productId}
               productName={product.name}
               price={product.price}
               categoryId={product.categoryId}
               quantity={product.stock}
               imageUrl={product.imageUrl}
+              onAddToCart={handleAddToCart}
              />
           </div>
         ))

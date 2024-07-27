@@ -3,14 +3,16 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import useFilter from '../hooks/useFilter';
 
-const ColorDropDown = () => {
+const ColorDropDown = ({ handleSearchFilterChange  }) => {
     const [color, setColor] = useState('');
     const COLORS = ['All','Red', 'Blue', 'Green', 'Orange']
 
     const handleColorChange = (event) => {
         const newColorValue = event.target.value;
         setColor(newColorValue)
+        handleSearchFilterChange(event)
     }
 
   return (
@@ -22,7 +24,9 @@ const ColorDropDown = () => {
                     id="demo-simple-select"
                     value={color}
                     label="Color"
+                    name='color'
                     onChange={handleColorChange}
+                    
                 >
                     {
                         COLORS.map((colors, index) => (

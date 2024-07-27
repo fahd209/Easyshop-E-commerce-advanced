@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormLabel, TextField } from '@mui/material';
 import Slider from '@mui/material/Slider';
+import useFilter from '../hooks/useFilter';
 
 function valuetext(value) {
     return `${value}°C`;
   }  
 
-const PriceRangeSwiper = () => {
+const PriceRangeSwiper = ( { handlePriceRange } ) => {
     const [sliderValue, setSliderValue] = useState([0,1500]);
     const [minValue, setMinValue] = useState(sliderValue[0]);
     const [maxValue, setMaxValue] = useState(sliderValue[1]);
@@ -30,6 +31,13 @@ const PriceRangeSwiper = () => {
         setSliderValue([sliderValue[0], newMaxValue]); // setting slider maxValue to the newMaxValue
     }
 
+    // when min or max values change call the handleSearchFilter
+    useEffect(() => {
+        handlePriceRange(minValue, maxValue)
+    }, [minValue, maxValue])
+
+
+
   return (
     <div className=''>
         <FormLabel sx={{fontSize: '20px'}} >Price range</FormLabel>
@@ -42,14 +50,13 @@ const PriceRangeSwiper = () => {
                         onChange={handleMinValueChange}
                         value={minValue}
                         minValue={0}
+                        name='minPrice'
                         label="Min"
                         type="number"
                         InputLabelProps={{
                             shrink: true,
                         }}
                     />
-
-                    <p>-</p>
 
                     <TextField
                         sx={{width: '120px', margin: '10px'}}
@@ -58,6 +65,7 @@ const PriceRangeSwiper = () => {
                         onChange={handMaxValueChange}
                         maxValue={1500}
                         label="Max"
+                        name='maxPrice'
                         type="number"
                         InputLabelProps={{
                             shrink: true,

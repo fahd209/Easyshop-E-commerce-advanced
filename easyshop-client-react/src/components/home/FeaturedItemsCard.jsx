@@ -62,7 +62,7 @@ const FeaturedItemsCard = ( props ) => {
                   Available: <span class="fw-bold">{props.quantity}</span>
                 </p>
                 <div class="ms-auto text-warning">
-                  <Button variant="contained"  disabled={!isLoggedIn()} >Add to cart</Button>
+                  <Button variant="contained" onClick={() => props.onAddToCart(props.id)}  disabled={!isLoggedIn()} >Add to cart</Button>
                 </div>
               </div>
             </MDBCardBody>

@@ -7,16 +7,12 @@ import baseUrl from '../config/baseUrl'
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext'
 import { useMessage } from '../alerts/MessageContext'
-import { error } from 'ajv/dist/vocabularies/applicator/dependencies';
 import CheckOutDrawer from './CheckOutDrawer';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 
 const Cart = () => {
-  
-
   const [cartItemsData, setCartItemsData] = useState([]);
   const [cartData, setCartData] = useState({});
-
   const { currentUser } = useAuth()
   const { displayMessage } = useMessage()
   const theme = useTheme();
@@ -34,11 +30,11 @@ const Cart = () => {
               'Authorization': `Bearer ${currentUser.token}`,
             },
         })
-        console.log(response.data)
         if(response.data.items && typeof response.data.items === 'object')
         {
           setCartItemsData(Object.values(response.data.items));
           setCartData(response.data)
+          console.log(Object.values(response.data.items))
         }
       }
       catch(error)
@@ -105,6 +101,24 @@ const Cart = () => {
       .catch(err => {
         displayMessage("Failed to clear cart", "Error")
       })
+    }
+
+    const handleCheckOut = () => {
+      const url = `${baseUrl}/orders`;
+
+      axios.post(url, {} , {
+        headers: { 
+          'Authorization': `Bearer ${currentUser.token}`,
+        }
+      })
+        .then(response => {
+          console.log(response.data)
+          setCartData({})
+          setCartItemsData([])
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
 
     // drawer functionality
@@ -176,6 +190,7 @@ const Cart = () => {
               data={cartItemsData}
               cartData={cartData}
               clearCart={handleClearCart}
+              onCheckOut={handleCheckOut}
              />
                 <div className='product-container'>
                 {
@@ -187,6 +202,7 @@ const Cart = () => {
                       quantity={cartItem.quantity}
                       price={cartItem.lineTotal}
                       description={cartItem.product.description}
+                      imageUrl={cartItem.product.imageUrl}
 
                       // product card decrease and increase function props
                       onDecrease={handleChangeQuantity}
@@ -214,6 +230,7 @@ const Cart = () => {
                       quantity={cartItem.quantity}
                       price={cartItem.lineTotal}
                       description={cartItem.product.description}
+                      imageUrl={cartItem.product.imageUrl}
 
                       // product card decrease and increase function props
                       onDecrease={handleChangeQuantity}
@@ -229,6 +246,7 @@ const Cart = () => {
                   data={cartItemsData}
                   cartData={cartData}
                   onClearCart={handleClearCart}
+                  onCheckOut={handleCheckOut}
                 />
               </Grid>
             

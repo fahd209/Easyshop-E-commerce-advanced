@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 
-const SearchBar = () => {
+const SearchBar = ( { handleSearchFilterChange, searchFilter } ) => {
+
+  const [searchValue, setSearchValue] = useState('');
+
   const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -45,16 +48,22 @@ const SearchBar = () => {
       },
     },
   }));
+
+  // handling search bar change
   
   return (
     <div>
-      <Search>
+      <Search
+      >
           <SearchIconWrapper>
             <SearchIcon />
           </SearchIconWrapper>
           <StyledInputBase
             placeholder="Find items..."
             inputProps={{ 'aria-label': 'search' }}
+            name='search'
+            onChange={handleSearchFilterChange}
+            value={searchFilter.search}
           />
       </Search>
     </div>
