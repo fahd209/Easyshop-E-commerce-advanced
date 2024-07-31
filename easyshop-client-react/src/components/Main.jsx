@@ -8,7 +8,6 @@ import Register from './registerAndLogin/Register';
 import NavigationBar from './navigationBar/NavigationBar';
 import Profile from './profile/Profile';
 import Cart from './cartComponents/Cart'
-import wishList from './wishList/WishList'
 import { useAuth } from "../components/context/AuthContext"
 import { MessageProvider } from './alerts/MessageContext';
 
@@ -25,16 +24,13 @@ function Main() {
               {
                 isLoggedIn() ? (
                   <>
-                    <Route path='/wishlist' Component={wishList}/>
                     <Route path='/cart' Component={Cart} />
                     <Route path='/profile' Component={Profile} />
                   </>
                 ) : ( 
                   <>
-                    
-                      <Route path='/login' Component={Login}/>
-                      <Route path='/register' Component={Register} />
-                  
+                    <Route path='/login' Component={Login}/>
+                    <Route path='/register' Component={Register} />
                 </>
                 )
               }

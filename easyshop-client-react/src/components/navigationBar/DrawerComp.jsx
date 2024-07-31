@@ -65,11 +65,6 @@ const DrawerComp = () => {
                         </>
                     ) : (
                         <>
-                        <ListItemButton component={Link} to="/wishlist" onClick={() => setOpenDrawer(false)}> 
-                            <ListItemIcon>
-                                    <ListItemText>Wish list</ListItemText>
-                            </ListItemIcon>
-                        </ListItemButton>
                         <ListItemButton component={Link} to="/cart" onClick={() => setOpenDrawer(false)}> 
                             <ListItemIcon>
                                     <ListItemText>Cart</ListItemText>

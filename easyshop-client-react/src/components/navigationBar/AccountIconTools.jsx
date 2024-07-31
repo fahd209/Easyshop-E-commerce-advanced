@@ -1,8 +1,5 @@
-import { render } from '@testing-library/react'
 import React from 'react'
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
@@ -11,8 +8,6 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
@@ -55,16 +50,9 @@ function AccountIconTools(){
 
     return(
         <React.Fragment>
-            <Tooltip sx={{marginLeft: 'auto'}} title="Wish list">
-                <CustomeIconButton component={Link} to='/wishlist'>
-                    <FavoriteBorderOutlinedIcon />
-                </CustomeIconButton>
-            </Tooltip>
-            <Tooltip title="Cart">
+            <Tooltip sx={{marginLeft: 'auto'}}  title="Cart">
                 <CustomeIconButton component={Link} to='/cart'>
-                    <StyledBadge badgeContent={4} color="primary">
                         <ShoppingCartOutlinedIcon />
-                    </StyledBadge>
                 </CustomeIconButton>
             </Tooltip>
             <Tooltip title="Profile">
