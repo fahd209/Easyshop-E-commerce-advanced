@@ -130,7 +130,7 @@ An example of the DAO is below
 # Docker
 This application is containrized using docker. There are 3 docker containers in this application. One for the front-end, one for the backend, and one for the database.
 
-![dockerDiagram](readMefileimages/docker-diagram.png)
+![dockerDiagram](readMeFileimages/docker-diagram.png)
 
 # How to run the project
 
