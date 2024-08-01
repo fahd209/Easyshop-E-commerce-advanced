@@ -126,3 +126,18 @@ An example of the DAO is below
         return shoppingCart;
     }
 ```
+
+# Docker
+This application is containrized using docker. There are 3 docker containers in this application. One for the front-end, one for the backend, and one for the database.
+
+![dockerDiagram](readMefileimages/dockerDiagram.png)
+
+# How to run the project
+
+1) Clone the repo to your computer
+2) Run the database file on mySql
+3) Open the backend server on your intelliJ, go to src/main/resource/application.properties
+4) Insure that the password the for the database matches the one on your computer in the application properties
+5) Run the backend server on intelliJ 
+6) Open the easyshop client on vs code
+7) Open the terminal and type "npm start"
