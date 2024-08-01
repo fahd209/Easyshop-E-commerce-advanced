@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
@@ -15,6 +16,7 @@ import org.yearup.models.ShoppingCart;
 import org.yearup.models.User;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -38,11 +40,27 @@ public class OrdersController {
             User user = userDao.getByUserName(userName);
             int userId = user.getId();
 
-            return orderDao.addOrder(userId);
+             return orderDao.addOrder(userId);
         }
         catch (Exception e)
         {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Oops...our bad");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops...our bad");
+        }
+    }
+
+    @GetMapping("/orders")
+    public List<Order> getUserOrder(Principal principal)
+    {
+        try {
+            String userName = principal.getName();
+            User user = userDao.getByUserName(userName);
+            int userId = user.getId();
+
+            return orderDao.getUserOrder(userId);
+        }
+        catch (Exception e)
+        {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

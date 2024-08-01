@@ -81,7 +81,7 @@ public class ShoppingCartController
 
     // Put mapping for the shopping cart with a specific item id
     @PutMapping("/cart/products/{itemId}")
-    public ShoppingCart updateCartItem(@PathVariable int itemId, @RequestBody ShoppingCartItem shoppingCartItem, Principal principal)
+    public ShoppingCart updateCartItem(@PathVariable int itemId, @RequestParam int quantity, Principal principal)
     {
         try
         {
@@ -90,11 +90,28 @@ public class ShoppingCartController
             User user = userDao.getByUserName(userName);
             int userId = user.getId();
 
-            return shoppingCartDao.updateShoppingCartItem(itemId, shoppingCartItem, userId);
+            return shoppingCartDao.updateShoppingCartItem(itemId, quantity, userId);
         }
         catch (Exception e)
         {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Oops... our bad.");
+        }
+    }
+
+    @DeleteMapping("/cart/{itemId}")
+    public ShoppingCart removeItem(@PathVariable int itemId, Principal principal)
+    {
+        try
+        {
+            String userName = principal.getName();
+            User user = userDao.getByUserName(userName);
+            int userId = user.getId();
+
+            return shoppingCartDao.removeItem(itemId, userId);
+        }
+        catch (Exception e)
+        {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

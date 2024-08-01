@@ -1,0 +1,23 @@
+services:
+  mysql:
+    build: ./database
+    container_name: database-c
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: YUm15510n
+  springboot-app:
+    build: ./backend-server
+    container_name: springboot-server-c
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+  react-app:
+    build: ./easyshop-client-react
+    container_name: react-client-c
+    ports:
+      - '3000:3000'
+    depends_on:
+      - springboot-app
+    stdin_open: true
+    tty: true

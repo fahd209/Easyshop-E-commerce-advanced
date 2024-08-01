@@ -7,9 +7,11 @@ import org.yearup.data.*;
 import org.yearup.models.*;
 
 import javax.sql.DataSource;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +49,7 @@ public class MySqlOrderDao extends MySqlDaoBase implements OrderDao {
                 """;
         try(Connection connection = getConnection())
         {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1,order.getUserid());
             preparedStatement.setString(2, order.getDate());
             preparedStatement.setString(3, order.getAddress());
@@ -57,8 +59,16 @@ public class MySqlOrderDao extends MySqlDaoBase implements OrderDao {
             preparedStatement.setDouble(7, order.getShippingAmount());
             preparedStatement.executeUpdate();
 
+            // getting the generated key
+            ResultSet id = preparedStatement.getGeneratedKeys();
+            if(id.next())
+            {
+                int generatedId = id.getInt(1);
+                order.setOrderId(generatedId);
+            }
+
             // getting the list of items in the shopping cart and mapping them to line items
-            lineItems = addOrderLineItem(userId, shoppingCart);
+            lineItems = addOrderLineItem(order.getOrderId(), shoppingCart);
         }
         catch (Exception e)
         {
@@ -75,13 +85,13 @@ public class MySqlOrderDao extends MySqlDaoBase implements OrderDao {
     }
 
     @Override
-    public List<OrderLineItem> addOrderLineItem(int userId, ShoppingCart shoppingCart) {
+    public List<OrderLineItem> addOrderLineItem(int ordeId , ShoppingCart shoppingCart) {
 
         // getting cartItem from shopping cart and converting it to list of map entry's
         List<Map.Entry<Integer, ShoppingCartItem>> shoppingCartItems = new ArrayList<>(shoppingCart.getItems().entrySet());
 
         // getting the order info of the current user by the user's id
-        Order order = getOrderByUserId(userId);
+        Order order = getOrderByOrderId(ordeId);
 
         String sql = """
                     INSERT INTO order_line_items
@@ -120,7 +130,7 @@ public class MySqlOrderDao extends MySqlDaoBase implements OrderDao {
             }
         }
 
-        shoppingCartDao.clearCart(userId);
+        shoppingCartDao.clearCart(order.getUserid());
         return order.getLineItems();
     }
 
@@ -162,6 +172,152 @@ public class MySqlOrderDao extends MySqlDaoBase implements OrderDao {
 
                 // making an order object out the columns
                 order = new Order(orderId, clientId, date, address, city, state, zip, shippingAmount);
+            }
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+        return order;
+    }
+
+    @Override
+    public List<Order> getUserOrder(int userId) {
+        List<Order> ordersList = new ArrayList<>();
+
+        String sql = """
+                SELECT order_id
+                    ,user_id
+                    ,date
+                    ,address
+                    ,city
+                    ,state
+                    ,zip
+                    ,shipping_amount
+                FROM orders
+                WHERE user_id = ?;
+                """;
+
+        try(Connection connection = getConnection())
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, userId);
+            ResultSet row = preparedStatement.executeQuery();
+
+            while (row.next())
+            {
+                // getting all columns for the row
+                int orderId = row.getInt("order_id");
+                int clientId = row.getInt("user_id");
+                String date = row.getString("date");
+                String address = row.getString("address");
+                String city = row.getString("city");
+                String state = row.getString("state");
+                String zip = row.getString("zip");
+                double shippingAmount = row.getDouble("shipping_amount");
+
+                // making an order object out the columns
+                ordersList.add(new Order(orderId, clientId, date, address, city, state, zip, shippingAmount));
+            }
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+
+        for(Order order : ordersList)
+        {
+            order.setLineItems(getOrderLineItems(order));
+        }
+
+
+
+        return ordersList;
+    }
+
+
+    @Override
+    public List<OrderLineItem> getOrderLineItems (Order order)
+    {
+        List<OrderLineItem> orderLineItems = new ArrayList<>();
+        String sql = """
+                SELECT order_line_item_id,
+                        order_id,
+                        product_id,
+                        sales_price,
+                        quantity,
+                        discount
+                FROM order_line_items
+                WHERE order_id = ?;
+                """;
+        try(Connection connection = getConnection()){
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, order.getOrderId());
+            ResultSet row = statement.executeQuery();
+
+            while (row.next())
+            {
+                int orderLineItemId = row.getInt("order_line_item_id");
+                int orderId = row.getInt("order_id");
+                int productId = row.getInt("product_id");
+                BigDecimal salesPrice = row.getBigDecimal("sales_price");
+                int quantity = row.getInt("quantity");
+
+                OrderLineItem orderLineItem = new OrderLineItem(){{
+                    setOrderLineItemId(orderLineItemId);
+                    setOrderId(orderId);
+                    setProductId(productId);
+                    setSales_price(salesPrice);
+                    setQuantity(quantity);
+                }};
+                orderLineItems.add(orderLineItem);
+            }
+
+        }catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+
+        return orderLineItems;
+    }
+
+    @Override
+    public Order getOrderByOrderId(int orderId) {
+        Order order = null;
+
+        String sql = """
+                SELECT order_id
+                    ,user_id
+                    ,date
+                    ,address
+                    ,city
+                    ,state
+                    ,zip
+                    ,shipping_amount
+                FROM orders
+                WHERE order_id = ?;
+                """;
+
+        try(Connection connection = getConnection())
+        {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, orderId);
+            ResultSet row = preparedStatement.executeQuery();
+
+            if(row.next())
+            {
+                // getting all columns for the row
+                int order_Id = row.getInt("order_id");
+                int clientId = row.getInt("user_id");
+                String date = row.getString("date");
+                String address = row.getString("address");
+                String city = row.getString("city");
+                String state = row.getString("state");
+                String zip = row.getString("zip");
+                double shippingAmount = row.getDouble("shipping_amount");
+
+                // making an order object out the columns
+                order = new Order(order_Id, clientId, date, address, city, state, zip, shippingAmount);
             }
         }
         catch (Exception e)
