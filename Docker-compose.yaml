@@ -5,6 +5,10 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: YUm15510n
+    ports:
+      - "3307:3306"
+    networks:
+      - app-network
   springboot-app:
     build: ./backend-server
     container_name: springboot-server-c
@@ -12,6 +16,8 @@ services:
       - "8080:8080"
     depends_on:
       - mysql
+    networks:
+      - app-network
   react-app:
     build: ./easyshop-client-react
     container_name: react-client-c
@@ -21,3 +27,9 @@ services:
       - springboot-app
     stdin_open: true
     tty: true
+    networks:
+      - app-network
+      
+networks:
+  app-network:
+    driver: bridge
