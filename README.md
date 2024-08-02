@@ -141,3 +141,10 @@ This application is containrized using docker. There are 3 docker containers in 
 5) Run the backend server on intelliJ 
 6) Open the easyshop client on vs code
 7) Open the terminal and type "npm start"
+
+# Run project on docker
+
+1) Clone the repo to your computer
+2) Make sure to have docker on your computer
+3) Open the repo on VS code
+4) Open the terminal and enter "Docker compose up --build"

@@ -7,7 +7,33 @@ import useFilter from '../hooks/useFilter';
 
 const ColorDropDown = ({ handleSearchFilterChange  }) => {
     const [color, setColor] = useState('');
-    const COLORS = ['All','Red', 'Blue', 'Green', 'Orange']
+    const COLORS = [
+            'All',
+            'Black',
+            'Gray',
+            'White',
+            'Silver',
+            'Charcoal',
+            'Blue',
+            'Dark Blue',
+            'Tan',
+            'Brown',
+            'Olive',
+            'Turquoise',
+            'Orange',
+            'Red',
+            'Navy',
+            'Khaki',
+            'Mint',
+            'Lavender',
+            'Teal',
+            'Maroon',
+            'Yellow',
+            'Pink',
+            'Burgundy',
+            'Clear',
+            'Green'
+        ]
 
     const handleColorChange = (event) => {
         const newColorValue = event.target.value;
