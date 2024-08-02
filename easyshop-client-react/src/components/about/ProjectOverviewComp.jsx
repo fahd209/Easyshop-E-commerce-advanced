@@ -1,5 +1,5 @@
 import React from 'react'
-import ToolsUsed from './toolUsed.png'
+import ToolsUsed from './OverviewImage.png'
 
 const ProjectOverviewComp = () => {
     const overViewContainer = {
