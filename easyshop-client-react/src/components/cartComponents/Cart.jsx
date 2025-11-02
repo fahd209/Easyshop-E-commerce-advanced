@@ -121,10 +121,6 @@ const Cart = () => {
         })
     }
 
-    // drawer functionality
-    const handleOpenDrawer = () => {
-
-    }
 
     const toggleDrawer = () => {
       setOpenDrawer(!openDrawer)

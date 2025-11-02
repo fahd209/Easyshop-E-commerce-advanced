@@ -7,9 +7,9 @@ import { useAuth } from '../context/AuthContext';
 import AccountIconTools from './AccountIconTools'
 
 const routes = {
-    "/":0,
-    "/shop":1,
-    "/about":2
+    "/": 0,
+    "/shop": 1,
+    "/about": 2
   } 
 const NavigationBar = () => { 
     const { isLoggedIn } = useAuth();

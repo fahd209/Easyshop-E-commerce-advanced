@@ -13,7 +13,7 @@ import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import Badge from '@mui/material/Badge';
 
-function AccountIconTools(){
+function AccountIconTools() {
     const CustomeIconButton = styled(IconButton)(({ theme }) => ({
         margin: '5px',
         color: 'white',
@@ -24,12 +24,12 @@ function AccountIconTools(){
 
     const StyledBadge = styled(Badge)(({ theme }) => ({
         '& .MuiBadge-badge': {
-          right: -3,
-          top: 13,
-          border: `2px solid ${theme.palette.background.paper}`,
-          padding: '0 4px',
+            right: -3,
+            top: 13,
+            border: `2px solid ${theme.palette.background.paper}`,
+            padding: '0 4px',
         },
-      }));
+    }));
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -44,29 +44,29 @@ function AccountIconTools(){
     const handleLogout = () => {
         logout();
         handleClose();
-      };
+    };
 
-    const { currentUser , logout } = useAuth();
+    const { currentUser, logout } = useAuth();
 
-    return(
+    return (
         <React.Fragment>
-            <Tooltip sx={{marginLeft: 'auto'}}  title="Cart">
+            <Tooltip sx={{ marginLeft: 'auto' }} title="Cart">
                 <CustomeIconButton component={Link} to='/cart'>
-                        <ShoppingCartOutlinedIcon />
+                    <ShoppingCartOutlinedIcon />
                 </CustomeIconButton>
             </Tooltip>
             <Tooltip title="Profile">
-          <IconButton
-            onClick={handleClick}
-            size="small"
-            sx={{ ml: 2 }}
-            aria-controls={open ? 'account-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-          >
-            <Avatar sx={{ width: 32, height: 32 }}>{currentUser.username.charAt(0)}</Avatar>
-          </IconButton>
-        </Tooltip>
+                <IconButton
+                    onClick={handleClick}
+                    size="small"
+                    sx={{ ml: 2 }}
+                    aria-controls={open ? 'account-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined}
+                >
+                    <Avatar sx={{ width: 32, height: 32 }}>{currentUser.username.charAt(0)}</Avatar>
+                </IconButton>
+            </Tooltip>
             <Menu
                 anchorEl={anchorEl}
                 id="account-menu"
@@ -74,38 +74,38 @@ function AccountIconTools(){
                 onClose={handleClose}
                 onClick={handleClose}
                 PaperProps={{
-                elevation: 0,
-                sx: {
-                    overflow: 'visible',
-                    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                    mt: 1.5,
-                    '& .MuiAvatar-root': {
-                    width: 32,
-                    height: 32,
-                    ml: -0.5,
-                    mr: 1,
+                    elevation: 0,
+                    sx: {
+                        overflow: 'visible',
+                        filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                        mt: 1.5,
+                        '& .MuiAvatar-root': {
+                            width: 32,
+                            height: 32,
+                            ml: -0.5,
+                            mr: 1,
+                        },
+                        '&::before': {
+                            content: '""',
+                            display: 'block',
+                            position: 'absolute',
+                            top: 0,
+                            right: 14,
+                            width: 10,
+                            height: 10,
+                            bgcolor: 'background.paper',
+                            transform: 'translateY(-50%) rotate(45deg)',
+                            zIndex: 0,
+                        },
                     },
-                    '&::before': {
-                    content: '""',
-                    display: 'block',
-                    position: 'absolute',
-                    top: 0,
-                    right: 14,
-                    width: 10,
-                    height: 10,
-                    bgcolor: 'background.paper',
-                    transform: 'translateY(-50%) rotate(45deg)',
-                    zIndex: 0,
-                    },
-                },
-            }}
+                }}
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
                 <MenuItem component={Link} to='/profile' onClick={handleClose}>
                     <Avatar /> Profile
                 </MenuItem>
-                    <Divider />
+                <Divider />
                 <MenuItem onClick={handleLogout} >
                     <ListItemIcon>
                         <Logout fontSize="small" />

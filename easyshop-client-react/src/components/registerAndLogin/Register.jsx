@@ -74,7 +74,6 @@ const Register = () => {
     try {
       // sending post request to register
       const response = await axios.post(url, registerData)
-      console.log(response.message)
     } catch (err) {
       console.log(`Error message: ${err.message}`)
     }

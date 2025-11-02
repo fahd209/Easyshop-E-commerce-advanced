@@ -76,14 +76,13 @@ const Login = () => {
     try{
       // sending login post req
        await axios.post(url, loginInfo)
-        .then((res) =>{
+        .then((res) => {
           // saving user to useAuth custom hook
           saveUser(res.data)
           navigate("/")
           displayMessage("Login successful", "success")
           
         }, fail => {
-          console.log(fail)
           displayMessage("Login failed", "error")
         })
     }
